@@ -1,0 +1,54 @@
+{
+  "id": "boring-middle",
+  "title": "The Boring Middle",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, stage 3: \"The newness is gone. The old voice: 'This isn't working. Nothing's changed.' You answer with the Show the record card.\" Claude's draft.",
+    "JIM: the outline says \"Days 4 to 6\". Claude read that as the days right after the three days of structure, and runs it on the first night of stage 3."
+  ],
+  "tag": {
+    "framework": "The Discipline Loop",
+    "item": "the boring middle"
+  },
+  "open": "This isn't working. Nothing's changed.",
+  "openIf": [
+    {
+      "if": [
+        "pattern=drink"
+      ],
+      "text": "This isn't working. Nothing's changed. At least a beer feels like something."
+    },
+    {
+      "if": [
+        "pattern=phone"
+      ],
+      "text": "This isn't working. Nothing's changed. At least the phone feels like something."
+    },
+    {
+      "if": [
+        "pattern=comfort"
+      ],
+      "text": "This isn't working. Nothing's changed. At least dinner on the couch feels like something."
+    }
+  ],
+  "rounds": [
+    "Nothing's changed. Why bother?",
+    "Same couch. Same night. Same you."
+  ],
+  "pushback": {
+    "name-it": "It's not hiding. It's one night.",
+    "phone-kitchen": "What if somebody needs you?",
+    "remove-access": "One beer was never the problem.",
+    "text-dana": "She doesn't need your problems.",
+    "remember-why": "That's a nice idea. You're tired.",
+    "plan-change": "See? Even you think it's a plan change.",
+    "show-record": "Those are just lines on a list.",
+    "floor": "Ten more minutes of nothing.",
+    "waiting": "For it to start feeling like it's working."
+  },
+  "answers": {
+    "show-record": "They're lines I wrote by doing them. That's what changed.",
+    "floor": "It's ten minutes I didn't skip. That's the thing that's working.",
+    "waiting": "It doesn't have to feel like anything. It has to happen."
+  }
+}

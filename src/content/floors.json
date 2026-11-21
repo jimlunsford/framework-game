@@ -1,0 +1,147 @@
+{
+  "_note": "The floor version options any encounter offers unless it lists its own. The first three come from the Scene Book's Monday encounter: the cans, a walk to the park, answering Dana. The rest follow the player's Daily Minimum. Draft wording, waiting on Jim.",
+  "floor": [
+    {
+      "if": [
+        "danaPending"
+      ],
+      "label": "Answer Dana",
+      "text": [
+        "Open the text. Answer it. That's the whole ten minutes."
+      ],
+      "record": "Answered Dana at {time}.",
+      "effects": [
+        {
+          "if": [
+            "danaAsk=mon"
+          ],
+          "then": [
+            "scene:dana-text"
+          ]
+        },
+        {
+          "if": [
+            "danaAsk=wed"
+          ],
+          "then": [
+            "scene:dana-wed"
+          ]
+        },
+        {
+          "if": [
+            "danaAsk=fri"
+          ],
+          "then": [
+            "scene:dana-fri"
+          ]
+        }
+      ]
+    },
+    {
+      "if": [
+        "floorKind=kitchen",
+        "place=home",
+        "!today.floorDone"
+      ],
+      "label": "Your floor: ten minutes on the kitchen",
+      "text": [
+        "Dishes, counter, cans. A timer on the stove."
+      ],
+      "record": "Floor: ten minutes on the kitchen at {time}.",
+      "effects": [
+        "set:cans=0",
+        "set:today.cansDone"
+      ]
+    },
+    {
+      "if": [
+        "floorKind=walk",
+        "!today.floorDone"
+      ],
+      "label": "Your floor: walk 10 minutes",
+      "text": [
+        "Shoes on. Around the block, or around the lot."
+      ],
+      "record": "Floor: walked 10 minutes at {time}.",
+      "effects": [
+        {
+          "if": [
+            "purpose=body"
+          ],
+          "then": [
+            "proof:purpose:Walked the floor on a night it was easy to skip."
+          ]
+        }
+      ]
+    },
+    {
+      "if": [
+        "floorKind=deshawn",
+        "!today.floorDone"
+      ],
+      "label": "Your floor: [Deshawn]'s ten minutes",
+      "text": [
+        "Three moves on whatever floor you're standing on."
+      ],
+      "record": "Floor: [Deshawn]'s ten minutes at {time}.",
+      "effects": [
+        {
+          "if": [
+            "purpose=body"
+          ],
+          "then": [
+            "proof:purpose:Did the ten minutes on a night it was easy to skip."
+          ]
+        }
+      ]
+    },
+    {
+      "if": [
+        "!floorSet",
+        "place=home"
+      ],
+      "label": "The cans and the dishes",
+      "text": [
+        "Ten minutes at the sink."
+      ],
+      "record": "Did ten minutes of dishes at {time}.",
+      "effects": [
+        "set:cans=0",
+        "set:today.cansDone",
+        {
+          "if": [
+            "quest.cans=active"
+          ],
+          "then": [
+            {
+              "quest": "cans",
+              "status": "closed",
+              "objective": "Done."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "if": [
+        "!floorSet"
+      ],
+      "label": "A walk to the park",
+      "text": [
+        "Ten minutes there, ten back. The river doesn't care what kind of day it was."
+      ],
+      "record": "Walked to the park and back at {time}."
+    },
+    {
+      "if": [
+        "floorSet",
+        "today.floorDone"
+      ],
+      "label": "Ten more minutes of something real",
+      "text": [
+        "The floor's already done today. This is ten minutes on top: dishes, a walk, a text you owe."
+      ],
+      "record": "Ten more minutes of something real at {time}."
+    }
+  ]
+}

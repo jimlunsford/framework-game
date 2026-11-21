@@ -1,0 +1,63 @@
+{
+  "id": "purpose-moment",
+  "title": "The Purpose moment",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, end of stage 2: \"What purpose must guide me now?\" The choices come from what you did. This opens the Purpose skill line and earns Remember why.",
+    "Claude's guess on the open question: four choices, each shown only if your record has something behind it (Dana answered or Saturday kept; walks, the gym or [Deshawn]'s ten minutes; on time at work; the pantry or Dana's car), plus your own words, always. If nothing on the record points anywhere yet, a plain fallback shows instead.",
+    "A purpose is for this season. Phase 2 can let the player change it later."
+  ],
+  "trigger": { "at": "bedtime", "if": ["stage=2", "count.structureDays>=3"], "priority": 10 },
+  "art": "bedroom@night",
+  "tag": { "framework": "The PERIOD Code", "item": "Purpose" },
+  "start": "ask",
+  "nodes": {
+    "ask": {
+      "text": ["One more question before you sleep. This one is bigger than a line.", "\"What purpose must guide me now?\""],
+      "choices": [
+        {
+          "label": "Being someone Dana can count on.",
+          "if": ["any:saturdayKept|count.danaSameDay>=2|danaPromised"],
+          "effects": ["purpose:dana:Being someone Dana can count on."],
+          "next": "chosen"
+        },
+        {
+          "label": "Getting my body back.",
+          "if": ["any:count.gymDays>=1|count.walks>=2|floorKind=deshawn|floorKind=walk"],
+          "effects": ["purpose:body:Getting my body back."],
+          "next": "chosen"
+        },
+        {
+          "label": "Being worth trusting at work.",
+          "if": ["count.onTime>=2"],
+          "effects": ["purpose:work:Being worth trusting at work."],
+          "next": "chosen"
+        },
+        {
+          "label": "Being useful to people who need it.",
+          "if": ["any:pantryDone|helpedDana"],
+          "effects": ["purpose:useful:Being useful to people who need it."],
+          "next": "chosen"
+        },
+        {
+          "label": "Showing up for my own life.",
+          "if": ["!any:saturdayKept|count.danaSameDay>=2|danaPromised|count.gymDays>=1|count.walks>=2|floorKind=deshawn|floorKind=walk|count.onTime>=2|pantryDone|helpedDana"],
+          "effects": ["purpose:life:Showing up for my own life."],
+          "next": "chosen"
+        },
+        { "label": "In my own words.", "next": "own" }
+      ]
+    },
+    "own": {
+      "text": ["\"What purpose must guide me now?\" Say it your way."],
+      "input": "purpose-own",
+      "next": "chosen"
+    },
+    "chosen": {
+      "record": "Chose a purpose: {purpose}",
+      "effects": ["proof:purpose:Chose a purpose: {purpose}", "card:remember-why", "stage:3:next"],
+      "text": ["{purpose}", "It's for this season. It shows you what a moment of relief would cost against it."],
+      "tag": { "framework": "The PERIOD Code", "item": "Purpose" }
+    }
+  }
+}

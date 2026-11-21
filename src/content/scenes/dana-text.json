@@ -1,0 +1,69 @@
+{
+  "id": "dana-text",
+  "title": "Opening: Monday. Dana's text (side quest: Saturday)",
+  "status": "locked",
+  "notes": [
+    "Scene Book, Opening: Monday, section 4. Approved by Jim, Nov 21, 2026. The words are the Scene Book's.",
+    "It buzzes in the first time you check the phone or walk into the kitchen. JIM: if neither happens, it arrives at noon so the player still gets it. The Scene Book doesn't say what happens if you never do either.",
+    "\"Not yet.\" only shows when you come back to an unanswered text. It's Claude's two words, so you can close the text again without re-recording \"Didn't answer Dana.\"",
+    "The record keeps the time you answered: every record line carries its clock time."
+  ],
+  "triggers": [
+    { "at": "enter", "place": "home", "room": "kitchen", "if": ["day=1"], "priority": 10 },
+    { "at": "time", "time": "12:00", "if": ["day=1"] }
+  ],
+  "art": "kitchen",
+  "start": "msg",
+  "nodes": {
+    "msg": {
+      "speaker": "Dana, your friend",
+      "message": true,
+      "effects": [
+        { "if": ["!quest.saturday=active"], "then": [{ "quest": "saturday", "title": "Saturday", "kind": "side", "tag": "Ownership", "objective": "Dana: \"Still on for Saturday?\" You can answer now, later or never." }] },
+        { "if": ["day=1"], "then": ["set:today.danaAsked"] }
+      ],
+      "text": ["Still on for Saturday? Be honest if you're not. You bailed last time."],
+      "choices": [
+        {
+          "label": "\"Work's been insane. I'll try.\"",
+          "result": ["It works. A thumbs up. Nothing gets harder today. Nothing gets better either."],
+          "record": "Blamed work.",
+          "effects": [
+            "unset:danaPending",
+            "set:danaAnswered=work",
+            { "if": ["today.danaAsked"], "then": ["add:count.danaSameDay=1"] },
+            { "quest": "saturday", "objective": "You said you'd try. Saturday is still open." }
+          ]
+        },
+        {
+          "label": "\"I bailed. That's on me. I'll be there.\"",
+          "result": ["\"ok. holding you to that.\" A promise you can keep or break."],
+          "record": "Owned the miss. Promise made: Saturday with Dana.",
+          "effects": [
+            "unset:danaPending",
+            "set:danaAnswered=owned",
+            "set:danaPromised",
+            "set:today.ownedMiss",
+            "card:name-it",
+            "trust:+1",
+            { "if": ["today.danaAsked"], "then": ["add:count.danaSameDay=1"] },
+            "proof:ownership:Owned the miss with Dana. Promise made: Saturday.",
+            { "quest": "saturday", "objective": "Promise made: Saturday with Dana." }
+          ]
+        },
+        {
+          "label": "Leave it on read.",
+          "if": ["!danaPending"],
+          "result": ["It sits in the quest log. It's still there at lunch, and at five."],
+          "record": "Didn't answer Dana.",
+          "effects": ["set:danaPending", "set:danaAsk=mon", { "quest": "saturday", "objective": "Dana asked about Saturday. Not answered." }]
+        },
+        {
+          "label": "Not yet.",
+          "if": ["danaPending"],
+          "next": null
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "id": "dana-returns",
+  "title": "Dana, on her schedule",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline cast: after you bail, Dana stops asking, and her trust comes back on her schedule, not yours. Here she reaches out first, days later. Nothing the player did made this happen. Claude's draft."
+  ],
+  "trigger": {
+    "at": "time",
+    "time": "19:00",
+    "if": [
+      "stage=3",
+      "s3day>=3",
+      "danaStopped"
+    ]
+  },
+  "start": "msg",
+  "nodes": {
+    "msg": {
+      "speaker": "Dana",
+      "message": true,
+      "effects": [
+        "set:today.danaAsked"
+      ],
+      "text": [
+        "hey."
+      ],
+      "choices": [
+        {
+          "label": "\"Hey. I'm sorry about Saturday. That was on me.\"",
+          "result": [
+            "A long time. Then: \"i know.\" Then: \"coffee sometime.\""
+          ],
+          "record": "Answered Dana. Owned Saturday.",
+          "effects": [
+            "unset:danaStopped",
+            "add:count.danaSameDay=1",
+            "proof:ownership:Owned Saturday to Dana when she reached out."
+          ]
+        },
+        {
+          "label": "\"Hey.\"",
+          "result": [
+            "\"hey.\" That's the whole conversation. It's more than last week."
+          ],
+          "record": "Answered Dana.",
+          "effects": [
+            "unset:danaStopped",
+            "add:count.danaSameDay=1"
+          ]
+        },
+        {
+          "label": "Leave it.",
+          "result": [
+            "She doesn't text again. That's hers to decide too."
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "_note": "The character creator. The closing line is locked from the Scene Book. Look labels and intro are Claude's drafts. JIM: \"Framework Game\" is a working title until the game's name is decided (also in index.html).",
+  "status": "First playable slice. Draft scenes are waiting on Jim.",
+  "title": "Framework Game",
+  "intro": ["Make the person you'll play. How they look changes nothing about how the game plays."],
+  "closingLine": "Nothing's wrong. That's the problem.",
+  "pronouns": [
+    { "id": "he", "label": "He/him" },
+    { "id": "she", "label": "She/her" },
+    { "id": "they", "label": "They/them" }
+  ],
+  "starts": [
+    {
+      "id": "drifting",
+      "label": "Functioning but drifting",
+      "text": "Rent's paid. The job's fine. You're fine. That's the whole problem.",
+      "available": true
+    },
+    {
+      "id": "bottom",
+      "label": "Rock bottom",
+      "text": "Everything fell at once.",
+      "available": false,
+      "later": "Coming later"
+    },
+    {
+      "id": "loss",
+      "label": "Rebuilding after a loss",
+      "text": "A job, a marriage, your health. Something left a hole.",
+      "available": false,
+      "later": "Coming later"
+    }
+  ],
+  "look": {
+    "skin": ["1", "2", "3", "4", "5", "6"],
+    "hair": ["Short", "Buzzed", "Long", "Curly", "Tied back", "Shaved"],
+    "hairColor": ["1", "2", "3", "4", "5", "6"],
+    "build": ["Slim", "Medium", "Broad"],
+    "clothes": ["Work jacket", "Hoodie", "Flannel", "T-shirt"]
+  }
+}

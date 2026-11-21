@@ -1,0 +1,81 @@
+{
+  "id": "short-shelves-ask",
+  "title": "Short Shelves",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Side quest from the Scene Book: \"The food pantry is short this week. Optional. It plants Purpose for later.\" The outline: [Pastor Ruth] needs one volunteer hour on Thursdays. She asks once and never preaches.",
+    "Runs the first time you visit the church while she's there, Monday through Thursday of the first week. Claude's draft."
+  ],
+  "trigger": {
+    "at": "enter",
+    "place": "church",
+    "if": [
+      "time>=9:00",
+      "time<17:00",
+      "day<=4"
+    ]
+  },
+  "art": "church",
+  "start": "ask",
+  "nodes": {
+    "ask": {
+      "speaker": "[Pastor Ruth]",
+      "effects": [
+        "time:+10"
+      ],
+      "text": [
+        "[Pastor Ruth] is in the basement doorway with a clipboard and a pencil behind her ear. The shelves behind her have more shelf than food.",
+        "\"Thursday, 5 to 6, I need one more pair of hands. One hour. Boxes and a can opener.\" She looks at you once, straight. \"I only ask once.\""
+      ],
+      "choices": [
+        {
+          "label": "\"I'll be there Thursday.\"",
+          "result": [
+            "She writes your name down. In pencil. \"See you Thursday.\""
+          ],
+          "record": "Told [Pastor Ruth] I'd help Thursday.",
+          "effects": [
+            "set:pantryYes",
+            {
+              "quest": "shelves",
+              "title": "Short Shelves",
+              "kind": "side",
+              "tag": "Purpose, later",
+              "objective": "Thursday, 5 to 6. One hour at the food pantry."
+            }
+          ]
+        },
+        {
+          "label": "\"Maybe. I'm not sure about Thursday.\"",
+          "result": [
+            "\"Maybe's honest,\" she says. \"Door's open at 4:30.\""
+          ],
+          "effects": [
+            {
+              "quest": "shelves",
+              "title": "Short Shelves",
+              "kind": "side",
+              "tag": "Purpose, later",
+              "objective": "Thursday, 4:30 to 6:30, if you want it. She won't ask again."
+            }
+          ]
+        },
+        {
+          "label": "\"Not this week.\"",
+          "result": [
+            "\"Okay.\" She means it. She goes back to counting cans."
+          ],
+          "effects": [
+            {
+              "quest": "shelves",
+              "title": "Short Shelves",
+              "kind": "side",
+              "status": "closed",
+              "objective": "You said no. She didn't ask again."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

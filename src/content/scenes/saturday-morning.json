@@ -1,0 +1,19 @@
+{
+  "id": "saturday-morning",
+  "title": "Saturday",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, stage 2, side quest: \"Only if you promised Dana on Monday. Saturday morning, the old voice opens with 'You're tired. She'll understand.' Keep it or break it. Either way, the record says which.\" Claude's draft.",
+    "Claude's guess: breakfast at 9 at the diner.",
+    "JIM: keeping the promise to Dana isn't the daily floor (the encounter sets floorCounts false), so the floor still waits for later in the day."
+  ],
+  "trigger": { "at": "wake", "if": ["weekday=sat", "danaPromised", "!danaStopped", "!saturdayKept"], "priority": 44 },
+  "art": "bedroom@predawn",
+  "start": "sat",
+  "nodes": {
+    "sat": {
+      "text": ["Saturday. Breakfast with Dana is at 9 at the diner.", "You lie there and the old voice gets there first."],
+      "effects": [{ "quest": "saturday", "objective": "Today. 9 a.m. at the diner." }, "encounter:saturday-voice"]
+    }
+  }
+}

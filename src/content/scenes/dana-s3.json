@@ -1,0 +1,97 @@
+{
+  "id": "dana-s3",
+  "title": "Dana's text: thanks",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "After a kept Saturday. Claude's draft."
+  ],
+  "trigger": {
+    "at": "time",
+    "time": "18:30",
+    "if": [
+      "stage=3",
+      "s3day>=1",
+      "saturdayKept",
+      "!danaPending",
+      "!danaStopped"
+    ]
+  },
+  "start": "msg",
+  "nodes": {
+    "msg": {
+      "speaker": "Dana",
+      "message": true,
+      "effects": [
+        {
+          "if": [
+            "!danaPending"
+          ],
+          "then": [
+            "set:today.danaAsked"
+          ]
+        }
+      ],
+      "text": [
+        "saturday was good. i forgot you were funny"
+      ],
+      "choices": [
+        {
+          "label": "\"Don't tell anybody.\"",
+          "result": [
+            "\"too late. told marlene.\""
+          ],
+          "record": "Answered Dana.",
+          "effects": [
+            {
+              "if": [
+                "today.danaAsked"
+              ],
+              "then": [
+                "add:count.danaSameDay=1",
+                {
+                  "if": [
+                    "purpose=dana"
+                  ],
+                  "then": [
+                    "proof:purpose:Answered Dana the same day."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "\"It was good. Thanks for asking me.\"",
+          "result": [
+            "\"thanks for coming.\""
+          ],
+          "record": "Answered Dana.",
+          "effects": [
+            {
+              "if": [
+                "today.danaAsked"
+              ],
+              "then": [
+                "add:count.danaSameDay=1",
+                {
+                  "if": [
+                    "purpose=dana"
+                  ],
+                  "then": [
+                    "proof:purpose:Answered Dana the same day."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Leave it for now.",
+          "result": [
+            "It's still there tonight."
+          ]
+        }
+      ]
+    }
+  }
+}

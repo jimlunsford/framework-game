@@ -1,0 +1,118 @@
+{
+  "_note": "Encounter cards. Names and texts for Scroll, Couple beers, Order in and zone out, Name it, Phone in the kitchen, The floor version and What am I waiting for? are the Scene Book's. The rest follow the outline's card list; their wording is Claude's draft, waiting on Jim.",
+  "cards": [
+    {
+      "id": "scroll",
+      "name": "Scroll",
+      "kind": "escape",
+      "escape": "phone",
+      "text": "Big relief now. Costs sleep. The phone gains pull."
+    },
+    {
+      "id": "beers",
+      "name": "Couple beers",
+      "kind": "escape",
+      "escape": "drink",
+      "text": "Big relief now. Costs tomorrow morning, and two cans by the sink become four."
+    },
+    {
+      "id": "orderin",
+      "name": "Order in and zone out",
+      "kind": "escape",
+      "escape": "comfort",
+      "text": "Some relief now. The cost is slow, and you won't see it tonight."
+    },
+    {
+      "id": "tomorrow",
+      "name": "Tomorrow.",
+      "kind": "delay",
+      "says": "Tomorrow.",
+      "text": "Put it off, with no new reason."
+    },
+    {
+      "id": "name-it",
+      "name": "Name it",
+      "kind": "action",
+      "says": "This isn't rest. This is hiding.",
+      "text": "Weakens the voice's next argument.",
+      "source": "Earned by owning a miss.",
+      "tag": { "framework": "The PERIOD Code", "item": "Ownership" }
+    },
+    {
+      "id": "phone-kitchen",
+      "name": "Phone in the kitchen",
+      "kind": "action",
+      "says": "The phone sleeps in the kitchen.",
+      "text": "Takes Scroll out of your hand tonight.",
+      "source": "Offered on the first night at home. Yours after Morning Line."
+    },
+    {
+      "id": "remove-access",
+      "name": "Remove the access",
+      "kind": "action",
+      "says": "There's no beer in this house.",
+      "text": "Takes Couple beers out of your hand at home.",
+      "source": "Earned in The Kitchen Counter."
+    },
+    {
+      "id": "floor",
+      "name": "The floor version",
+      "kind": "action",
+      "says": "Ten minutes.",
+      "text": "Ten minutes of the thing you've been putting off.",
+      "source": "Always in hand. The Daily Minimum makes it yours.",
+      "tag": { "framework": "How to Rebuild Yourself", "item": "the floor and the ceiling" }
+    },
+    {
+      "id": "waiting",
+      "name": "What am I waiting for?",
+      "kind": "action",
+      "says": "What am I waiting for?",
+      "text": "Makes the old voice give its reason. If it has none, Resolve goes up.",
+      "source": "Always in hand.",
+      "tag": { "framework": "Pure Execution Mode", "item": "Eliminate Negotiation" }
+    },
+    {
+      "id": "show-record",
+      "name": "Show the record",
+      "kind": "action",
+      "says": "Here's what's changed.",
+      "text": "Answers \"Nothing's changed.\" The record is proof.",
+      "source": "Earned after any three days of structure.",
+      "tag": { "framework": "How to Rebuild Yourself", "item": "stage 4: Produce the proof" }
+    },
+    {
+      "id": "text-dana",
+      "name": "Text Dana first",
+      "kind": "action",
+      "says": "You text Dana: rough night. Talk me out of the couch?",
+      "text": "Real support, not rescue.",
+      "source": "Earned when Dana's trust is high enough."
+    },
+    {
+      "id": "plan-change",
+      "name": "It's a plan change",
+      "kind": "action",
+      "says": "It's a plan change.",
+      "text": "For when a real new fact changes the plan. Using it without one shows up later.",
+      "source": "Earned at the start of Ordinary Days.",
+      "tag": { "framework": "Pure Execution Mode", "item": "a changed plan and a miss are separate paths" }
+    },
+    {
+      "id": "remember-why",
+      "name": "Remember why",
+      "kind": "action",
+      "says": "I remember why.",
+      "text": "Resolve goes up. Grows with your Purpose line.",
+      "source": "Earned at the Purpose moment.",
+      "tag": { "framework": "The PERIOD Code", "item": "Purpose" }
+    },
+    {
+      "id": "go-to-dana",
+      "name": "Go to Dana",
+      "kind": "fact",
+      "says": "I'm coming. Stay there.",
+      "text": "Her car died at the gas station on [Main]. A real new fact."
+    }
+  ]
+}

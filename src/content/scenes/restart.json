@@ -1,0 +1,141 @@
+{
+  "id": "restart",
+  "title": "The restart sequence",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "The Discipline Loop: after any miss, the restart sequence runs: tell the truth, find the break, take the next aligned action, rebuild the minimum, remove the opening, get support if needed. Hiding the miss skips the sequence and the miss grows.",
+    "Runs the morning after a miss (an escape, a skipped shift, a day the structure didn't hold, a broken promise), or right away when an overbuilt plan collapses.",
+    "Each completed restart counts as a return. Returns count, never streaks. Each one is Ownership proof.",
+    "After two returns, the sequence has formed, so it collapses into one tap (\"Run the restart\"), like \"Run my morning.\"",
+    "Hiding it keeps the restart waiting for tomorrow and adds a little Pull to the next encounter. JIM: \"the miss grows\" is Claude's simplest reading."
+  ],
+  "trigger": { "at": "wake", "daily": true, "if": ["pendingRestart"], "priority": 60 },
+  "art": "kitchen@dawn",
+  "tag": { "framework": "The Discipline Loop", "item": "the restart sequence" },
+  "start": "truth",
+  "nodes": {
+    "truth": {
+      "text": ["The restart sequence. One: tell the truth."],
+      "textIf": [
+        { "if": ["restartReason=escaped"], "text": ["Last night you played an escape card. The record has the time."] },
+        { "if": ["restartReason=shift"], "text": ["Yesterday's shift happened without you."] },
+        { "if": ["restartReason=morning"], "text": ["Yesterday the morning didn't go the way you set it."] },
+        { "if": ["restartReason=floor"], "text": ["Yesterday the floor didn't happen. Not even ten minutes."] },
+        { "if": ["restartReason=overbuilt"], "text": ["The full program lasted one day. It was built for a person who doesn't exist yet."] },
+        { "if": ["restartReason=saturday"], "text": ["You didn't go Saturday."] },
+        { "if": ["restartReason=miss"], "text": ["Something you said you'd do didn't happen."] },
+        { "if": ["missWeight>=1"], "text": ["It's the same miss from before. You didn't look at it then either."] }
+      ],
+      "choices": [
+        {
+          "label": "Run the restart.",
+          "if": ["count.returns>=2"],
+          "note": "You know this one now: truth, break, next move, floor, opening, support.",
+          "effects": ["set:today.restartFast"],
+          "next": "done"
+        },
+        {
+          "label": "Say it plain.",
+          "result": ["No story around it. Just what happened, and that it was yours."],
+          "record": "Told the truth about the miss.",
+          "next": "break"
+        },
+        {
+          "label": "Don't look at it.",
+          "result": ["You skip it. The miss doesn't go anywhere. It gets a little bigger."],
+          "record": "Didn't look at the miss.",
+          "effects": ["add:missWeight=1", "add:count.hidden=1"],
+          "next": null
+        }
+      ]
+    },
+    "break": {
+      "text": ["Two: find the break. Where did it come apart?"],
+      "textIf": [
+        { "if": ["restartReason=overbuilt"], "text": ["The record points at it: you built too much."] },
+        { "if": ["restartReason=escaped", "today.tired"], "text": ["The record points at the hour it happened, and what was in your hand."] },
+        { "if": ["any:restartReason=floor|restartReason=morning"], "text": ["The record points at a day with no small version in it."] }
+      ],
+      "choices": [
+        { "label": "I was waiting to feel ready.", "record": "The break: waiting to feel ready.", "next": "move" },
+        { "label": "I built too much to keep.", "record": "The break: built too much.", "next": "move" },
+        { "label": "There was no small version, so I did nothing.", "record": "The break: no daily minimum.", "next": "move" },
+        { "label": "I made a deal with the line.", "record": "The break: negotiated with the standard.", "next": "move" },
+        { "label": "Everything felt like it was falling apart.", "record": "The break: chaos.", "next": "move" }
+      ]
+    },
+    "move": {
+      "text": ["Three: the next aligned action. One move, the smallest real one, now."],
+      "choices": [
+        { "label": "Text Dana back.", "if": ["danaPending"], "record": "Next move: answered Dana.", "effects": ["set:today.restartMove=dana"], "next": "dana" },
+        { "label": "Get to the job site by 7.", "if": ["workday", "!today.noShift"], "record": "Next move: on site by 7.", "next": "floor" },
+        { "label": "Put the phone in the kitchen. Now.", "record": "Next move: phone in the kitchen.", "effects": ["set:today.phoneInKitchen"], "next": "floor" },
+        { "label": "Make the coffee. Drink it standing up.", "record": "Next move: coffee, standing up.", "next": "floor" }
+      ]
+    },
+    "dana": {
+      "text": ["You open the text. It's still there."],
+      "next": "floor",
+      "effects": [
+        { "if": ["danaAsk=mon"], "then": ["scene:dana-text"] },
+        { "if": ["danaAsk=wed"], "then": ["scene:dana-wed"] },
+        { "if": ["danaAsk=fri"], "then": ["scene:dana-fri"] }
+      ]
+    },
+    "floor": {
+      "text": ["Four: rebuild the minimum."],
+      "textIf": [
+        { "if": ["floorSet"], "text": ["Your floor is {floor}. On a day like this, the floor is what counts."] },
+        { "if": ["!floorSet"], "text": ["Pick something small enough to do on a bad day. Ten minutes of anything real."] },
+        { "if": ["restartReason=overbuilt"], "text": ["And the morning, rebuilt smaller."] }
+      ],
+      "choices": [
+        {
+          "label": "Rebuild the morning small: phone in the kitchen, coffee, out the door.",
+          "if": ["!morningSet", "seen.morning-line"],
+          "record": "Rebuilt the morning, smaller.",
+          "effects": [
+            "set:morningSet",
+            "set:morningPhone=kitchen",
+            "set:morningLabel=Phone sleeps in the kitchen. Coffee, then out the door.",
+            "card:phone-kitchen",
+            { "quest": "morning-line", "status": "closed", "objective": "Set, smaller: {morningLine}" }
+          ],
+          "next": "opening"
+        },
+        { "label": "Today, the floor: {floor}.", "if": ["floorSet", "morningSet"], "record": "Today's floor: {floor}.", "next": "opening" },
+        { "label": "Ten minutes of something real today.", "if": ["!floorSet", "any:morningSet|!seen.morning-line"], "record": "Today's floor: ten minutes of something real.", "next": "opening" }
+      ]
+    },
+    "opening": {
+      "text": ["Five: remove the opening. What let it in?"],
+      "choices": [
+        { "label": "The phone sleeps in the kitchen tonight.", "record": "Closing the opening: the phone sleeps in the kitchen tonight.", "effects": ["set:today.offerPhoneKitchen"], "next": "support" },
+        { "label": "Take the beer out of the house.", "if": ["!beerGone", "any:pull.drink>=1|cans>=2"], "record": "Closing the opening: took the beer out of the house.", "effects": ["set:beerGone", "card:remove-access"], "next": "support" },
+        { "label": "No stop at [Tuck's] tonight.", "if": ["pull.drink>=1"], "record": "Closing the opening: no [Tuck's] tonight.", "effects": ["set:today.noBar"], "next": "support" },
+        { "label": "Nothing to remove. I'll watch for it.", "next": "support" }
+      ]
+    },
+    "support": {
+      "text": ["Six: get support, if you need it. Support helps you do the work. It doesn't do it for you."],
+      "choices": [
+        { "label": "Text Dana: \"rough night. still on for saturday.\"", "if": ["danaPromised", "!danaStopped", "!saturdayKept"], "result": ["\"ok. good.\" That's all. It's enough."], "record": "Told Dana it was a rough night.", "next": "done" },
+        { "label": "Tell Ray you'll be there by 7.", "if": ["workday", "!today.noShift", "restartReason=shift"], "result": ["\"ok.\""], "record": "Told Ray I'll be there by 7.", "next": "done" },
+        { "label": "Not today. I've got this one.", "next": "done" }
+      ]
+    },
+    "done": {
+      "effects": [
+        "unset:pendingRestart",
+        "unset:restartReason",
+        "unset:missWeight",
+        "add:count.returns=1",
+        "set:today.restarted",
+        "proof:ownership:Came back after a miss. Ran the restart.",
+        { "if": ["today.restartFast"], "then": ["record:Ran the restart sequence."] },
+        { "if": ["!today.restartFast"], "then": ["record:Finished the restart sequence."] }
+      ],
+      "text": ["That's the restart. It's a way back, not a punishment.", "Returns so far: {count.returns}. The record counts returns, not streaks."]
+    }
+  }
+}

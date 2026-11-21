@@ -1,0 +1,233 @@
+{
+  "id": "real-new-fact",
+  "title": "A Real New Fact",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, stage 3: \"Ray asks you to stay late Thursday, and it collides with something you planned. The game asks which this is: a plan change or a miss. It knows whether the facts actually changed.\" Claude's draft.",
+    "JIM: it runs on the first Thursday at least three days into stage 3. If that Thursday is too far out, it runs on the first workday five days in, so the slice stays near its length.",
+    "Pure Execution Mode: a changed plan and a miss are separate paths. A real fact changes what it touches. Telling the people it touches is what makes it a plan change."
+  ],
+  "trigger": {
+    "at": "manual"
+  },
+  "art": "jobsite@evening",
+  "tag": {
+    "framework": "Pure Execution Mode",
+    "item": "a changed plan and a miss are separate paths"
+  },
+  "start": "ask",
+  "nodes": {
+    "ask": {
+      "speaker": "Ray",
+      "effects": [
+        {
+          "quest": "fact",
+          "title": "A Real New Fact",
+          "kind": "main",
+          "objective": "Ray's asking you to stay till 6."
+        }
+      ],
+      "text": [
+        "3:00. Ray walks over with the clipboard, which he never does. \"Pour got moved up. Can you stay till 6?\"",
+        "He's asking you first. That's new too."
+      ],
+      "textIf": [
+        {
+          "if": [
+            "weekday=thu",
+            "any:pantryRegular|pantryYes"
+          ],
+          "text": [
+            "You told [Pastor Ruth] you'd be at the pantry at 5."
+          ]
+        },
+        {
+          "if": [
+            "any:!weekday=thu|!pantryRegular",
+            "!pantryYes",
+            "any:ceilingKind=gym|ceilingKind=deshawn"
+          ],
+          "text": [
+            "You planned the gym at 5: {ceiling}."
+          ]
+        },
+        {
+          "if": [
+            "any:!weekday=thu|!pantryRegular",
+            "!pantryYes",
+            "!ceilingKind=gym",
+            "!ceilingKind=deshawn"
+          ],
+          "text": [
+            "You planned {ceiling} tonight."
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "label": "\"Yes. Let me text [Pastor Ruth] first.\"",
+          "if": [
+            "weekday=thu",
+            "any:pantryRegular|pantryYes"
+          ],
+          "result": [
+            "You text her: \"Ray needs me till 6. Can't make the pantry tonight. Next Thursday.\" She sends back a thumbs up and, somehow, a can of corn."
+          ],
+          "record": "Stayed till 6 for Ray. Told [Pastor Ruth] at 3:05. Plan changed.",
+          "effects": [
+            "set:today.toldPlan",
+            "set:today.stayedLate"
+          ],
+          "next": "which"
+        },
+        {
+          "label": "\"Yes. Let me move my plan first.\"",
+          "if": [
+            "any:!weekday=thu|!pantryRegular",
+            "!pantryYes"
+          ],
+          "result": [
+            "You put it in your phone, in writing: {ceiling}, Saturday morning. A real time, not \"later.\""
+          ],
+          "record": "Stayed till 6 for Ray. Moved the plan to Saturday, in writing.",
+          "effects": [
+            "set:today.toldPlan",
+            "set:today.stayedLate"
+          ],
+          "next": "which"
+        },
+        {
+          "label": "\"Yes.\"",
+          "result": [
+            "Ray nods and walks off. The plan doesn't get mentioned. It just doesn't happen."
+          ],
+          "record": "Stayed till 6 for Ray. Didn't move or mention the plan.",
+          "effects": [
+            "set:today.silentChange",
+            "set:today.stayedLate"
+          ],
+          "next": "which"
+        },
+        {
+          "label": "\"I can't today. I've got something at 5.\"",
+          "result": [
+            "Ray looks at you for a second. \"Okay. Next time.\" He means it. He goes and asks [Cole]."
+          ],
+          "record": "Said no to overtime. Kept the plan.",
+          "effects": [
+            "set:today.keptPlan",
+            "time:=15:30",
+            {
+              "quest": "shift",
+              "objective": "Worked the shift. Said no to overtime."
+            },
+            {
+              "quest": "fact",
+              "status": "closed",
+              "objective": "A real fact. You kept your plan, and said so."
+            }
+          ],
+          "next": null
+        }
+      ]
+    },
+    "which": {
+      "text": [
+        "So which is this: a plan change, or a miss?"
+      ],
+      "choices": [
+        {
+          "label": "A plan change.",
+          "if": [
+            "today.toldPlan"
+          ],
+          "result": [
+            "It is. The facts changed, and you said so before the hour came. That's what a plan change looks like."
+          ],
+          "record": "Plan change: overtime. Said so before it mattered.",
+          "effects": [
+            "add:count.honestChange=1",
+            "proof:ownership:Called a real plan change a plan change, and said so in time."
+          ],
+          "next": "done"
+        },
+        {
+          "label": "A miss.",
+          "if": [
+            "today.toldPlan"
+          ],
+          "result": [
+            "It isn't. The facts changed and you handled it. A changed plan and a miss are separate paths."
+          ],
+          "next": "done"
+        },
+        {
+          "label": "A plan change.",
+          "if": [
+            "today.silentChange"
+          ],
+          "result": [
+            "The overtime is real. But nobody knows the plan moved, and it doesn't exist anywhere but in your head. A change you don't tell anyone about is just a miss with a good excuse."
+          ],
+          "record": "Called it a plan change. Didn't tell anyone.",
+          "effects": [
+            "add:count.mislabeled=1"
+          ],
+          "next": "repair"
+        },
+        {
+          "label": "A miss. I should have said something.",
+          "if": [
+            "today.silentChange"
+          ],
+          "result": [
+            "That's honest. It isn't too late to say so."
+          ],
+          "next": "repair"
+        }
+      ]
+    },
+    "repair": {
+      "text": [
+        "The overtime is real. What you do with the plan is still yours."
+      ],
+      "choices": [
+        {
+          "label": "Fix it now.",
+          "result": [
+            "Ten seconds. It's done before Ray's back."
+          ],
+          "record": "Moved the plan at {time}. Late, but said.",
+          "effects": [
+            "set:today.toldPlan"
+          ],
+          "next": "done"
+        },
+        {
+          "label": "Leave it.",
+          "record": "Didn't move the plan.",
+          "next": "done"
+        }
+      ]
+    },
+    "done": {
+      "effects": [
+        "time:=18:00",
+        "add:count.overtime=1",
+        "record:Worked till 6.",
+        {
+          "quest": "shift",
+          "objective": "Worked till 6. Overtime."
+        },
+        {
+          "quest": "fact",
+          "status": "closed",
+          "objective": "The facts changed. You know which one it was."
+        }
+      ],
+      "text": [
+        "6:00. The slab is poured. Ray says \"Thanks\" without looking up, which from Ray is a speech."
+      ]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "three-days",
+  "title": "Three Days",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, stage 2: \"The stage ends after you've run your structure on any three days. They don't have to be in a row.\" Earns Show the record (outline: earned after any three days of structure). Claude's draft."
+  ],
+  "trigger": { "at": "bedtime", "if": ["stage=2", "count.structureDays>=3"], "priority": 20 },
+  "art": "bedroom@night",
+  "tag": { "framework": "How to Rebuild Yourself", "item": "stage 2: Build the structure" },
+  "start": "three",
+  "nodes": {
+    "three": {
+      "effects": [
+        "card:show-record",
+        { "quest": "three-days", "status": "closed", "objective": "Three days of structure, on the record." },
+        { "quest": "structure", "status": "closed", "objective": "Monday's line survived Tuesday. And then some." }
+      ],
+      "text": [
+        "Three days of structure are on the record now. Not in a row. Not perfect. Three.",
+        "Nothing about tonight feels different. That's fine. The record doesn't need you to feel it."
+      ]
+    }
+  }
+}

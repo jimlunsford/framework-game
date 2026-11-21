@@ -1,0 +1,53 @@
+{
+  "id": "falling-apart",
+  "title": "Falling apart anyway",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Any other stage 2 night. The Discipline Loop break point: chaos replacing escape. The outline's line: \"Everything's falling apart anyway.\" The opening argues in the terms of your pattern. Claude's draft."
+  ],
+  "tag": {
+    "framework": "The Discipline Loop",
+    "item": "break point: chaos"
+  },
+  "open": "Everything's falling apart anyway.",
+  "openIf": [
+    {
+      "if": [
+        "pattern=drink"
+      ],
+      "text": "Everything's falling apart anyway. Might as well have a couple."
+    },
+    {
+      "if": [
+        "pattern=phone"
+      ],
+      "text": "Everything's falling apart anyway. Might as well scroll."
+    },
+    {
+      "if": [
+        "pattern=comfort"
+      ],
+      "text": "Everything's falling apart anyway. Might as well order something."
+    }
+  ],
+  "rounds": [
+    "What's ten minutes against all of it?",
+    "Start Monday. Fresh week."
+  ],
+  "pushback": {
+    "name-it": "It's not hiding. It's one night.",
+    "phone-kitchen": "What if somebody needs you?",
+    "remove-access": "One beer was never the problem.",
+    "text-dana": "She doesn't need your problems.",
+    "show-record": "Those are just lines on a list.",
+    "remember-why": "That's a nice idea. You're tired.",
+    "plan-change": "See? Even you think it's a plan change.",
+    "floor": "Ten minutes against all of this?",
+    "waiting": "Because it's all too much."
+  },
+  "answers": {
+    "floor": "Not against all of it. Just ten minutes of it.",
+    "show-record": "They're lines I wrote by doing them.",
+    "waiting": "All of it isn't on tonight's list. Ten minutes is."
+  }
+}

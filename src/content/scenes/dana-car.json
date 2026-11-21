@@ -1,0 +1,78 @@
+{
+  "id": "dana-car",
+  "title": "Dana's car on [Main]",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Follows the Adjusted outcome of Monday's encounter. The Scene Book gives only the setup and the record; this scene is Claude's draft.",
+    "If you've been drinking at the bar, you walk. It's six blocks.",
+    "Helping Dana doesn't raise her trust. Design rule 8: trust returns on her schedule and can't be bought. It does put you on Marlene's board later.",
+    "If her Saturday text is still unanswered, she brings it up in person."
+  ],
+  "trigger": { "at": "manual" },
+  "art": "gas@night",
+  "start": "arrive",
+  "nodes": {
+    "arrive": {
+      "effects": ["time:+15"],
+      "textIf": [
+        { "if": ["today.barDrinks>=1"], "text": ["You leave the truck where it is and walk. It's six blocks. The cold helps."] },
+        { "if": ["!today.barDrinks>=1"], "text": ["You drive over. [Main] is empty except for the canopy lights."] }
+      ],
+      "text": [
+        "Dana is standing by pump four with the hood up and her phone at three percent.",
+        "\"I didn't know who else was awake,\" she says. Then: \"That's not true. I knew you were awake.\""
+      ],
+      "choices": [
+        {
+          "label": "Look at the battery.",
+          "result": [
+            "The terminal is crusted white. You knock it clean with the heel of a wrench from your truck, and it catches on the second try.",
+            "Dana laughs, mostly from relief."
+          ],
+          "effects": ["time:+20"],
+          "next": "after"
+        }
+      ]
+    },
+    "after": {
+      "text": ["\"Thanks,\" she says. \"Seriously.\""],
+      "textIf": [{ "if": ["danaPending"], "text": ["She looks at you over the hood. \"You never answered me. About Saturday.\""] }],
+      "choices": [
+        {
+          "label": "\"I bailed last time. That's on me. I'll be there.\"",
+          "if": ["danaPending"],
+          "result": ["\"ok,\" she says, out loud, like a text. \"Holding you to that.\""],
+          "record": "Owned the miss to Dana's face. Promise made: Saturday with Dana.",
+          "effects": [
+            "unset:danaPending",
+            "set:danaAnswered=owned",
+            "set:danaPromised",
+            "set:today.ownedMiss",
+            "card:name-it",
+            "add:count.danaSameDay=1",
+            "proof:ownership:Owned the miss with Dana, in person. Promise made: Saturday.",
+            { "quest": "saturday", "objective": "Promise made: Saturday with Dana." }
+          ],
+          "next": "home"
+        },
+        {
+          "label": "\"Work's been insane. I'll try.\"",
+          "if": ["danaPending"],
+          "result": ["She nods. She's heard it. \"Sure.\""],
+          "record": "Blamed work, in person.",
+          "effects": ["unset:danaPending", "set:danaAnswered=work", { "quest": "saturday", "objective": "You said you'd try. Saturday is still open." }],
+          "next": "home"
+        },
+        {
+          "label": "\"Get home safe.\"",
+          "result": ["She does. She texts when she's in the driveway: \"home.\""],
+          "next": "home"
+        }
+      ]
+    },
+    "home": {
+      "effects": ["time:+15", "go:home:bedroom"],
+      "text": ["It's late when you get back. The house is where you left it."]
+    }
+  }
+}

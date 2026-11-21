@@ -1,0 +1,49 @@
+{
+  "id": "short-shelves-thursday",
+  "title": "Short Shelves: Thursday",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, stage 2, side quest: \"Continues from Monday. [Pastor Ruth] needs one hour on Thursday. It feeds your Purpose choice.\" Claude's draft. She doesn't preach.",
+    "Runs when you walk into the church during the Thursday pantry, or from the Help at the pantry action."
+  ],
+  "trigger": { "at": "enter", "place": "church", "daily": true, "if": ["weekday=thu", "time>=16:30", "time<18:00", "!today.pantry"] },
+  "art": "church@evening",
+  "start": "work",
+  "nodes": {
+    "work": {
+      "speaker": "[Pastor Ruth]",
+      "effects": ["set:today.pantry"],
+      "textIf": [
+        { "if": ["pantryYes"], "text": ["\"You came.\" She says it like a fact, not a surprise."] },
+        { "if": ["!pantryYes"], "text": ["She looks up from a box of canned corn. \"Well. Grab a box cutter.\""] }
+      ],
+      "text": [
+        "The basement smells like cardboard and coffee. Canned corn, peanut butter, a pallet of cereal somebody's church sent over.",
+        "She hands you a box cutter and a job, and then she leaves you alone with it. She doesn't preach. She doesn't thank you every five minutes. She just keeps the line moving.",
+        "A woman with two kids takes the last jar of peanut butter you shelved. You watch it go."
+      ],
+      "choices": [
+        {
+          "label": "Finish the hour.",
+          "result": ["At the end she says, \"Same time next week, if you want it. I won't ask.\""],
+          "record": "One hour at the food pantry.",
+          "effects": [
+            "time:+60",
+            "set:pantryDone",
+            "add:count.pantry=1",
+            { "if": ["purpose=useful"], "then": ["proof:purpose:An hour at the pantry."] },
+            { "quest": "shelves", "title": "Short Shelves", "kind": "side", "status": "closed", "objective": "One hour, Thursday. Done." }
+          ],
+          "next": "after"
+        }
+      ]
+    },
+    "after": {
+      "text": ["Same time next week?"],
+      "choices": [
+        { "label": "\"I'll be here.\"", "record": "Said I'd be back at the pantry next Thursday.", "effects": ["set:pantryRegular"] },
+        { "label": "\"We'll see.\"" }
+      ]
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "id": "morning-line",
+  "title": "Morning Line",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, stage 2, main quest step: \"Pick your morning structure: where the alarm sits, where the phone sleeps, coffee or not. An overbuilt option is on the menu: 5 a.m. gym, cold shower, journaling, meal prep. It looks great on day one and collapses by day two. When it does, the restart sequence opens.\" Claude's draft.",
+    "Choosing the phone in the kitchen earns the Phone in the kitchen card (outline: earned in Morning Line).",
+    "Your choices apply from tomorrow morning."
+  ],
+  "trigger": { "at": "wake", "if": ["stage>=2", "!morningSet", "!overbuilt"], "priority": 40 },
+  "art": "kitchen@dawn",
+  "tag": { "framework": "How to Rebuild Yourself", "item": "stage 2: Build the structure" },
+  "start": "phone",
+  "nodes": {
+    "phone": {
+      "text": [
+        "Main quest step: Morning Line.",
+        "Tomorrow morning starts tonight. Three small decisions, made once, so you don't have to make them at 6:30 with the phone lit a foot from your head.",
+        "First: where does the phone sleep?"
+      ],
+      "choices": [
+        {
+          "label": "In the kitchen. An old alarm clock goes by the bed.",
+          "effects": ["set:morningPhone=kitchen", "set:mPhone=Phone sleeps in the kitchen.", "card:phone-kitchen"],
+          "next": "alarm"
+        },
+        {
+          "label": "On the nightstand, face down.",
+          "effects": ["set:morningPhone=nightstand", "set:mPhone=Phone face down on the nightstand."],
+          "next": "alarm"
+        }
+      ]
+    },
+    "alarm": {
+      "text": ["Where does the alarm sit?"],
+      "choices": [
+        { "label": "Across the room. You have to stand up to stop it.", "effects": ["set:mAlarm=Alarm across the room."], "next": "coffee" },
+        { "label": "Where it's always been.", "effects": ["set:mAlarm="], "next": "coffee" }
+      ]
+    },
+    "coffee": {
+      "text": ["Coffee or not?"],
+      "choices": [
+        { "label": "Coffee first, then out the door.", "effects": ["set:mCoffee=Coffee, then out the door."], "next": "size" },
+        { "label": "No coffee. Straight out.", "effects": ["set:mCoffee=Straight out the door."], "next": "size" }
+      ]
+    },
+    "size": {
+      "text": [
+        "{flag.mPhone} {flag.mAlarm} {flag.mCoffee}",
+        "That's it. It fits in one breath.",
+        "Or. There's the other version, the one that looks great on paper: 5 a.m. gym, cold shower, journaling, meal prep. Do it right. All of it."
+      ],
+      "choices": [
+        {
+          "label": "Keep it that small.",
+          "result": ["Small enough to do on a bad morning. That's the point."],
+          "record": "Set a morning line.",
+          "effects": [
+            "set:morningSet",
+            "set:morningLabel={flag.mPhone} {flag.mAlarm} {flag.mCoffee}",
+            { "quest": "morning-line", "status": "closed", "objective": "Set: {morningLine}" }
+          ]
+        },
+        {
+          "label": "Do it right. 5 a.m. gym, cold shower, journaling, meal prep.",
+          "result": ["It looks great. You can already see yourself doing it."],
+          "record": "Set a morning line: 5 a.m. gym, cold shower, journaling, meal prep.",
+          "effects": [
+            "set:morningSet",
+            "set:overbuilt",
+            "set:morningLabel=5 a.m. gym, cold shower, journaling, meal prep.",
+            "set:wakeNext=5:00",
+            "set:tomorrow.overbuiltDayOne",
+            { "quest": "morning-line", "objective": "Set: the full program, starting tomorrow at 5:00 a.m." }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "id": "morning",
+  "title": "Morning",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Every morning after Monday. Claude's draft, built on Monday's three choices.",
+    "Once you have a morning line, following it is how a morning is kept. After three kept mornings the routine has formed and collapses into one tap: \"Run my morning.\" (Outline, stage 3.)",
+    "Escape is still always on the menu."
+  ],
+  "trigger": { "at": "wake", "daily": true, "if": ["day>=2", "!today.morningHandled"], "priority": 50 },
+  "art": "bedroom@predawn",
+  "start": "wake",
+  "nodes": {
+    "wake": {
+      "effects": [
+        { "if": ["workday"], "then": [{ "quest": "shift", "objective": "7:00 to 3:30 at the job site." }], "else": [{ "quest": "shift", "objective": "Weekend. No shift today." }] },
+        { "if": ["today.tired"], "then": ["notice:You slept badly. Tonight's encounter starts with more Pull."] }
+      ],
+      "textIf": [
+        { "if": ["today.tired"], "text": ["The alarm sounds farther away than it is. Last night is still in your head."] },
+        { "if": ["!morningSet"], "text": ["6:30. The alarm. The phone, lit, a foot from your head."] },
+        { "if": ["morningSet", "count.morningsKept<3"], "text": ["6:30. The alarm. Your morning line: {morningLine}"] },
+        { "if": ["morningSet", "count.morningsKept>=3"], "text": ["6:30. You know how this goes now. You don't have to decide it."] }
+      ],
+      "choices": [
+        {
+          "label": "Run my morning",
+          "if": ["morningSet", "count.morningsKept>=3"],
+          "note": "{morningLine}",
+          "record": "Kept the morning.",
+          "effects": ["set:today.morningKept", "set:today.gotUp", "time:+15", { "if": ["purpose=work", "workday"], "then": ["proof:purpose:Kept the morning on a workday."] }]
+        },
+        {
+          "label": "Follow the morning line.",
+          "if": ["morningSet", "count.morningsKept<3"],
+          "note": "{morningLine}",
+          "result": ["You do it the way you set it up. It's smaller than it sounds and it takes less than you'd think."],
+          "record": "Kept the morning.",
+          "effects": ["set:today.morningKept", "set:today.gotUp", "time:+15"]
+        },
+        {
+          "label": "Get up.",
+          "if": ["!morningSet"],
+          "result": ["Cold floor. You have time for coffee."],
+          "record": "Got up on the alarm.",
+          "effects": ["set:today.gotUp", "time:+5"]
+        },
+        {
+          "label": "Check the phone. Just a minute.",
+          "if": ["any:!morningPhone=kitchen|!morningSet"],
+          "note": "Escape: the phone",
+          "escape": true,
+          "result": ["It isn't a minute. It's forty. Then it's 7:10."],
+          "record": "40 minutes on the phone before getting up.",
+          "effects": ["time:=7:10", "add:pull.phone=1", "set:today.phoneMorning", "add:count.escapeAction=1", "notice:The phone gains pull."]
+        },
+        {
+          "label": "Go get the phone from the kitchen. Just a minute.",
+          "if": ["morningSet", "morningPhone=kitchen"],
+          "note": "Escape: the phone",
+          "escape": true,
+          "result": ["You walk past the coffee maker to get it. It isn't a minute. It's forty. Then it's 7:10."],
+          "record": "40 minutes on the phone before getting up.",
+          "effects": ["time:=7:10", "add:pull.phone=1", "set:today.phoneMorning", "add:count.escapeAction=1", "notice:The phone gains pull."]
+        },
+        {
+          "label": "Snooze.",
+          "result": ["Nine more minutes. Then nine more. Less morning, no more rest."],
+          "record": "Snoozed twice.",
+          "effects": ["time:+18"]
+        }
+      ]
+    }
+  }
+}

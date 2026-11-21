@@ -1,0 +1,28 @@
+{
+  "_note": "The diner's news board. Town news runs by day whether or not you were there, so the town keeps living. News about you appears when its condition holds (Marlene's News). Claude's drafts, waiting on Jim.",
+  "town": [
+    { "day": 1, "text": "Food pantry at the church is short this week. [Pastor Ruth] says canned protein, peanut butter, and one more pair of hands on Thursday." },
+    { "day": 1, "text": "FOR SALE: 2009 truck, runs, \"mostly.\" Ask at the counter." },
+    { "day": 2, "text": "The bridge on [Route 46] is down to one lane through Friday. Leave early." },
+    { "day": 3, "text": "Lost: gray cat, answers to Biscuit, does not answer to anything else." },
+    { "day": 4, "text": "Found: Biscuit. He was in the pantry. He's fine. The pantry is not." },
+    { "day": 5, "text": "High school plays at home Friday night. [Marlene] closes early for nobody." },
+    { "day": 6, "text": "Saturday: pancake special, and the hardware store's paint sale ends at noon." },
+    { "day": 7, "text": "Sunday hours at the diner: 7 to 2. Church potluck after the 10:30." },
+    { "day": 8, "text": "Rain coming midweek, the real kind. Ray's crew is watching the forecast." },
+    { "day": 9, "text": "The pantry's shelves are fuller. [Pastor Ruth] says thank you to whoever keeps showing up." },
+    { "day": 10, "text": "Rained out. The job site is a mud pit. The diner is full of guys in work boots with nowhere to be." },
+    { "day": 11, "text": "Ray's crew poured the slab. Somebody stayed late. The building has a floor now." },
+    { "day": 12, "text": "The bridge on [Route 46] is open both lanes. Nobody believes it." },
+    { "day": 13, "text": "Pancake special again. Nobody's complaining." },
+    { "day": 14, "text": "Nothing happened this week, which in this town counts as news." }
+  ],
+  "you": [
+    { "if": ["helpedDana"], "text": "Somebody jumped Dana's car at the gas station on [Main] Monday night. She says it was {name}." },
+    { "if": ["seenTucksLate"], "text": "{name}, still at [Tuck's] at 11 on a weeknight. [Gus] says you tip well." },
+    { "if": ["pantryDone"], "text": "Thanks to {name} for an hour at the pantry Thursday. — [Pastor Ruth]" },
+    { "if": ["saturdayKept"], "text": "Dana and {name}, breakfast in the window booth Saturday. [Marlene] noticed. [Marlene] notices everything." },
+    { "if": ["count.shiftSkipped>=1"], "text": "Ray's crew ran one short this week. Ray didn't say who. Ray didn't have to." },
+    { "if": ["count.onTime>=5"], "text": "Ray says his whole crew's been on time. He didn't say who he meant." }
+  ]
+}

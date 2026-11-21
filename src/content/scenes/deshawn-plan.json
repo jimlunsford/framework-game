@@ -1,0 +1,68 @@
+{
+  "id": "deshawn-plan",
+  "title": "Deshawn's Plan",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, stage 2, side quest: \"He offers the six-day program. Taking it is the overbuilding trap. Asking for the floor version earns his respect and a real routine.\" Claude's draft.",
+    "Asking for the smallest version sets your Daily Minimum if you don't have one yet."
+  ],
+  "trigger": { "at": "enter", "place": "gym", "if": ["stage>=2", "any:time<9:00|time>=16:00"] },
+  "art": "gym",
+  "tag": { "framework": "The Discipline Loop", "item": "break point: overbuilding the plan" },
+  "start": "desk",
+  "nodes": {
+    "desk": {
+      "effects": [{ "quest": "deshawn", "title": "Deshawn's Plan", "kind": "side", "objective": "[Deshawn] has a program for you." }],
+      "speaker": "[Deshawn]",
+      "text": [
+        "[Deshawn] looks up from the front desk. Former athlete; it's still in how he stands.",
+        "\"You're the one who comes in once a month and leaves in twenty minutes.\" He slides a sheet across the counter. Six days a week. Ninety minutes a day. A meal plan with grams on it.",
+        "\"Or,\" he says, \"you tell me what you'll actually do.\""
+      ],
+      "choices": [
+        {
+          "label": "\"Give me the full six days.\"",
+          "result": ["He shrugs like he's seen this movie. \"5 a.m. tomorrow, then.\""],
+          "record": "Took [Deshawn]'s six-day program.",
+          "effects": [
+            "set:overbuilt",
+            "set:morningSet",
+            "set:morningLabel=5 a.m. gym, the six-day program.",
+            "set:wakeNext=5:00",
+            "set:tomorrow.overbuiltDayOne",
+            { "quest": "deshawn", "objective": "The six-day program. Starts tomorrow, 5 a.m." }
+          ]
+        },
+        {
+          "label": "\"What's the smallest version that still counts?\"",
+          "result": [
+            "He looks at you for a second longer than he did before.",
+            "\"Ten minutes. Three moves. Every day you can, and on the days you can't, the same ten minutes.\" He tears the sheet in half and writes three lines on the back. \"Most people ask for the big one. The big one is how I lose them.\""
+          ],
+          "record": "Asked [Deshawn] for the smallest version.",
+          "effects": [
+            "set:deshawnSmall",
+            { "quest": "deshawn", "status": "closed", "objective": "Ten minutes, three moves. He respects that you asked." },
+            {
+              "if": ["!floorSet"],
+              "then": [
+                "set:floorSet",
+                "set:floorKind=deshawn",
+                "set:floorLabel=[Deshawn]'s ten minutes",
+                "set:ceilingKind=deshawn",
+                "set:ceilingLabel=his full session, 40 minutes",
+                { "quest": "minimum", "status": "closed", "objective": "Floor: [Deshawn]'s ten minutes. Ceiling: his full session." },
+                { "quest": "three-days", "title": "Three Days", "kind": "main", "objective": "Run it. Any three days: keep the morning, and do the floor or the ceiling. They don't have to be in a row. 0 so far." }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "\"Just looking.\"",
+          "result": ["\"Door's open till nine.\""],
+          "effects": [{ "quest": "deshawn", "objective": "The offer stands. Door's open till nine." }]
+        }
+      ]
+    }
+  }
+}

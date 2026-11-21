@@ -1,0 +1,144 @@
+{
+  "_note": "The eight places from the Scene Book. Bracketed names stay until Jim picks final names. Hours and descriptions are Claude's drafts, waiting on Jim. Positions are on a 0 to 100 map.",
+  "places": [
+    {
+      "id": "home",
+      "name": "Home",
+      "short": "Home",
+      "art": "living",
+      "pos": [18, 64],
+      "hours": [],
+      "hoursText": "Yours. Always open.",
+      "rooms": [
+        { "id": "bedroom", "name": "Bedroom", "art": "bedroom" },
+        { "id": "kitchen", "name": "Kitchen", "art": "kitchen" },
+        { "id": "living", "name": "Living room", "art": "living" }
+      ],
+      "desc": { "default": "Where mornings start and nights end." },
+      "roomDesc": {
+        "bedroom": {
+          "default": "The bed, the nightstand, the lamp you never turn on.",
+          "dawn": "Blue light before the sun. The bed, the nightstand, the lamp you never turn on.",
+          "night": "Dark, except for whatever is lit on the nightstand."
+        },
+        "kitchen": {
+          "default": "A counter, a sink, a fridge that hums louder than it should.",
+          "dawn": "The coffee maker blinks the wrong time. The counter is where you left it."
+        },
+        "living": {
+          "default": "The couch, the TV, the lamp. The couch has a shape that's yours.",
+          "dusk": "The lamp is on. The couch has a shape that's yours.",
+          "night": "The lamp is on. The TV is waiting. The couch has a shape that's yours."
+        }
+      },
+      "closedText": "Home is always open."
+    },
+    {
+      "id": "jobsite",
+      "name": "The job site",
+      "short": "Job site",
+      "art": "jobsite",
+      "pos": [30, 74],
+      "hours": [{ "days": ["mon", "tue", "wed", "thu", "fri"], "open": "6:00", "close": "16:00" }],
+      "hoursText": "Your shift: weekdays, 7:00 to 3:30.",
+      "desc": {
+        "default": "Forms, rebar, a slab that will be a building. Ray's truck is parked where it's always parked.",
+        "dawn": "Floodlights still on. The crew drifts in with coffee.",
+        "evening": "The slab cools. Everybody's gone but the dust."
+      },
+      "closedText": "The gate is chained. The crew works weekdays, 7:00 to 3:30."
+    },
+    {
+      "id": "diner",
+      "name": "The diner",
+      "short": "Diner",
+      "art": "diner",
+      "pos": [44, 42],
+      "hours": [{ "open": "5:30", "close": "20:00" }],
+      "hoursText": "Open 5:30 a.m. to 8:00 p.m.",
+      "desc": {
+        "default": "[Marlene]'s diner. Regulars, coffee, and the news board by the register where town news lives.",
+        "dawn": "Warm light, the first pot on, three regulars who never sit anywhere else.",
+        "morning": "Warm light and the smell of the grill. The news board by the register is half covered in index cards.",
+        "evening": "The supper crowd is two tables and a pie case."
+      },
+      "closedText": "The sign says CLOSED. [Marlene] opens at 5:30 in the morning."
+    },
+    {
+      "id": "gym",
+      "name": "The gym",
+      "short": "Gym",
+      "art": "gym",
+      "pos": [58, 56],
+      "hours": [{ "open": "5:00", "close": "21:00" }],
+      "hoursText": "Open 5:00 a.m. to 9:00 p.m.",
+      "desc": {
+        "default": "[Deshawn]'s gym. Racks, rubber floors, a whiteboard with somebody's PR on it.",
+        "dawn": "Mostly empty. The lights hum. Somebody's left a towel on the bench.",
+        "evening": "Mostly empty at this hour. The radio plays to nobody."
+      },
+      "closedText": "Dark windows. The gym opens at 5:00 a.m."
+    },
+    {
+      "id": "bar",
+      "name": "[Tuck's]",
+      "short": "[Tuck's]",
+      "art": "bar",
+      "pos": [70, 38],
+      "hours": [{ "open": "16:00", "close": "1:00" }],
+      "hoursText": "The bar. Opens at 4:00 p.m.",
+      "desc": {
+        "default": "Low light, a long bar, the game on with the sound off.",
+        "evening": "The after-work crowd. The game is on with the sound off.",
+        "night": "Low light. The same six people. The neon in the window does most of the talking."
+      },
+      "closedText": "The neon is off. [Tuck's] opens at 4."
+    },
+    {
+      "id": "church",
+      "name": "The church",
+      "short": "Church",
+      "art": "church",
+      "pos": [40, 16],
+      "hours": [
+        { "days": ["mon", "tue", "wed", "thu", "fri", "sat"], "open": "8:00", "close": "18:30" },
+        { "days": ["sun"], "open": "8:00", "close": "12:00" }
+      ],
+      "hoursText": "Open most days. The food pantry runs Thursdays, 4:30 to 6:30.",
+      "desc": {
+        "default": "White siding, a side door to the basement where the food pantry runs. [Pastor Ruth] coordinates it.",
+        "morning": "The side door is propped open. Somebody is sweeping the steps."
+      },
+      "closedText": "The doors are locked. A paper sign: PANTRY THURSDAYS 4:30 TO 6:30."
+    },
+    {
+      "id": "park",
+      "name": "The park",
+      "short": "Park",
+      "art": "park",
+      "pos": [80, 70],
+      "hours": [],
+      "hoursText": "Always open.",
+      "desc": {
+        "default": "A walking track around a field, and a bench by the river.",
+        "dawn": "Mist on the field. One walker ahead of you on the track.",
+        "night": "One light by the bench. The river is louder in the dark."
+      },
+      "closedText": "The park is always open."
+    },
+    {
+      "id": "gas",
+      "name": "The gas station",
+      "short": "Gas station",
+      "art": "gas",
+      "pos": [86, 44],
+      "hours": [{ "open": "5:00", "close": "23:00" }],
+      "hoursText": "On [Main]. Open 5:00 a.m. to 11:00 p.m.",
+      "desc": {
+        "default": "On [Main]. Four pumps, coffee that's been on since six, and a lot where things break down, sometimes literally.",
+        "night": "On [Main]. The canopy lights make everything look like an ad."
+      },
+      "closedText": "The pumps are dark. The gas station on [Main] opens at 5."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "do-it-right",
+  "title": "Do it right",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Wednesday night. The Discipline Loop break point: overbuilding the plan. The outline's line: \"If you're doing this, do it right. All of it.\" Claude's draft."
+  ],
+  "tag": {
+    "framework": "The Discipline Loop",
+    "item": "break point: overbuilding the plan"
+  },
+  "open": "If you're doing this, do it right. All of it.",
+  "openIf": [
+    {
+      "if": [
+        "overbuilt"
+      ],
+      "text": "If you're doing this, do it right. All of it. Five a.m. again. You can rest when you're dead."
+    }
+  ],
+  "rounds": [
+    "Ten minutes is a joke. Do the real thing or don't bother.",
+    "Tomorrow. The full version."
+  ],
+  "pushback": {
+    "name-it": "It's not hiding. It's one night.",
+    "phone-kitchen": "What if somebody needs you?",
+    "remove-access": "One beer was never the problem.",
+    "text-dana": "She doesn't need your problems.",
+    "show-record": "Those are just lines on a list.",
+    "remember-why": "That's a nice idea. You're tired.",
+    "plan-change": "See? Even you think it's a plan change.",
+    "floor": "Ten minutes? That's not doing it right.",
+    "waiting": "For the right time to do all of it."
+  },
+  "answers": {
+    "floor": "Ten minutes I do beats ninety I don't.",
+    "show-record": "They're lines I wrote by doing them.",
+    "waiting": "There isn't a right time for all of it. There's ten minutes now."
+  }
+}

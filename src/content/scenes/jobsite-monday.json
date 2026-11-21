@@ -1,0 +1,124 @@
+{
+  "id": "jobsite-monday",
+  "title": "Opening: Monday. Out in town, the job site",
+  "status": "locked",
+  "notes": [
+    "Scene Book, Opening: Monday, section 5. Approved by Jim, Nov 21, 2026. Ray's lines, the two answers and their records are the Scene Book's.",
+    "On time means on site by 7:00. JIM: the Scene Book's shift starts at 7; arriving at 7:00 exactly counts as on time.",
+    "The Scene Book says the shift \"plays out in a few lines\" and gives these two. They are used as written.",
+    "\"On site at 7:12 a.m.\" style records and \"Worked the shift.\" are Claude's: the Scene Book says the game records whether you show up, honestly, without giving the line."
+  ],
+  "trigger": {
+    "at": "enter",
+    "place": "jobsite",
+    "if": [
+      "day=1",
+      "time<15:30",
+      "!today.shiftDone"
+    ],
+    "priority": 10
+  },
+  "art": "jobsite",
+  "start": "route",
+  "nodes": {
+    "route": {
+      "nextIf": [
+        {
+          "if": [
+            "time<=7:00"
+          ],
+          "next": "ontime"
+        }
+      ],
+      "next": "late"
+    },
+    "ontime": {
+      "record": "On site at {time}.",
+      "effects": [
+        "add:count.onTime=1",
+        "set:today.onTime",
+        {
+          "quest": "shift",
+          "objective": "On site at {time}. On time."
+        }
+      ],
+      "text": [
+        "Ray says \"Morning\" without looking up. Nobody notices you were on time. In a small town, that's a kind of news too."
+      ],
+      "next": "shift"
+    },
+    "late": {
+      "record": "On site at {time}. Late.",
+      "effects": [
+        "add:count.late=1",
+        "set:today.late",
+        {
+          "quest": "shift",
+          "objective": "On site at {time}. Late."
+        },
+        {
+          "quest": "second-time",
+          "title": "Second Time This Week",
+          "kind": "side",
+          "tag": "Ownership",
+          "objective": "Ray noticed. What do you tell him?"
+        }
+      ],
+      "text": [
+        "Ray doesn't look up from his clipboard. \"Second time this week.\""
+      ],
+      "choices": [
+        {
+          "label": "\"Traffic on [Route 46].\"",
+          "result": [
+            "Ray writes something down. He's heard that one."
+          ],
+          "record": "Blamed traffic.",
+          "effects": [
+            {
+              "quest": "second-time",
+              "status": "closed",
+              "objective": "You blamed traffic."
+            }
+          ],
+          "next": "shift"
+        },
+        {
+          "label": "\"That's on me. It won't be a pattern.\"",
+          "result": [
+            "Ray looks up for the first time. \"Okay.\" That's all. It's more than you got from him last month."
+          ],
+          "record": "Owned being late. Promise made: on time.",
+          "effects": [
+            "set:today.ownedMiss",
+            "set:promiseOnTime",
+            "card:name-it",
+            "proof:ownership:Owned being late to Ray. Promise made: on time.",
+            {
+              "quest": "second-time",
+              "status": "closed",
+              "objective": "You owned it. Promise made: on time."
+            }
+          ],
+          "next": "shift"
+        }
+      ]
+    },
+    "shift": {
+      "text": [
+        "You're good at the parts of this job nobody sees.",
+        "At 3:30 the town opens back up: the diner, the gym, the park, the church, and at 4 o'clock, the bar."
+      ],
+      "effects": [
+        "time:=15:30",
+        "set:today.shiftDone",
+        "add:count.shifts=1",
+        "record:Worked the shift.",
+        {
+          "quest": "shift",
+          "objective": "Worked the shift."
+        }
+      ]
+    }
+  }
+}

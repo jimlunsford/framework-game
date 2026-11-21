@@ -1,0 +1,25 @@
+{
+  "id": "night-plan",
+  "title": "A Real New Fact: the evening",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "After staying late. The voice tries to stretch a real fact over the rest of the day."
+  ],
+  "trigger": {
+    "at": "time",
+    "time": "18:00",
+    "daily": true,
+    "if": [
+      "today.stayedLate",
+      "!today.encounterDone"
+    ]
+  },
+  "start": "go",
+  "nodes": {
+    "go": {
+      "effects": [
+        "encounter:plan-or-miss"
+      ]
+    }
+  }
+}

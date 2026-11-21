@@ -1,0 +1,23 @@
+{
+  "id": "build-the-structure",
+  "title": "Main quest: Build the Structure",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, stage 2. The quest name and objective are the outline's. The steps are listed as their own quest entries so each can show an honest status.",
+    "Runs on the first morning of stage 2, after the morning scene."
+  ],
+  "trigger": { "at": "wake", "if": ["stage=2"], "priority": 45 },
+  "start": "go",
+  "nodes": {
+    "go": {
+      "effects": [
+        { "quest": "main", "status": "closed", "objective": "Written: \"{standard}\"" },
+        { "quest": "structure", "title": "Build the Structure", "kind": "main", "tag": "How to Rebuild Yourself, stage 2", "objective": "Set up your days so Monday's line can survive Tuesday." },
+        { "quest": "morning-line", "title": "Morning Line", "kind": "main", "objective": "Pick your morning structure." },
+        { "quest": "counter", "title": "The Kitchen Counter", "kind": "main", "objective": "Your environment. After work, the kitchen." },
+        { "quest": "minimum", "title": "The Daily Minimum", "kind": "main", "objective": "Set a floor and a ceiling for one thing." },
+        "notice:Main quest: Build the Structure. Set up your days so Monday's line can survive Tuesday."
+      ]
+    }
+  }
+}

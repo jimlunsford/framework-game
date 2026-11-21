@@ -1,0 +1,39 @@
+{
+  "id": "ordinary-days",
+  "title": "Main quest: Ordinary Days",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, stage 3: \"Keep the structure through a week where nothing special happens. The drama fades on purpose. As routines form, they collapse into one tap, like 'Run my morning,' so ordinary days play fast.\" Claude's draft.",
+    "JIM: It's a plan change is earned here, at the start of stage 3. The outline lists the card without saying where it's earned."
+  ],
+  "trigger": {
+    "at": "wake",
+    "if": [
+      "stage=3"
+    ],
+    "priority": 45
+  },
+  "tag": {
+    "framework": "How to Rebuild Yourself",
+    "item": "stage 3: Repeat the action"
+  },
+  "start": "go",
+  "nodes": {
+    "go": {
+      "effects": [
+        {
+          "quest": "ordinary",
+          "title": "Ordinary Days",
+          "kind": "main",
+          "tag": "How to Rebuild Yourself, stage 3",
+          "objective": "Keep the structure through a week where nothing special happens."
+        },
+        "card:plan-change"
+      ],
+      "text": [
+        "Main quest: Ordinary Days.",
+        "Keep the structure through a week where nothing special happens. The drama fades on purpose. Most days from here are just days."
+      ]
+    }
+  }
+}

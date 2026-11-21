@@ -1,0 +1,9 @@
+{
+  "id": "dana-unanswered",
+  "title": "Dana's text, unanswered",
+  "status": "draft, waiting on Jim",
+  "notes": ["The record states the fact at night when a text from Dana that day was never answered. Monday's version is the Scene Book's \"Leave it on read\" record instead."],
+  "trigger": { "at": "bedtime", "daily": true, "if": ["day>=2", "today.danaAsked", "danaPending"], "priority": 30 },
+  "start": "rec",
+  "nodes": { "rec": { "record": "Didn't answer Dana today." } }
+}

@@ -1,0 +1,76 @@
+{
+  "id": "shift-default",
+  "title": "Your shift",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "The daily responsibility after Monday. Claude's draft, built on Monday's locked lines.",
+    "Ray cares about one thing: whether you show up. As the record builds, he trusts you with more (outline cast).",
+    "In stage 3, on the right day, the shift hands off to A Real New Fact at 3:00."
+  ],
+  "trigger": { "at": "enter", "place": "jobsite", "daily": true, "if": ["day>=2", "workday", "!today.shiftDone", "!today.noShift", "time<15:30"], "priority": 10 },
+  "art": "jobsite",
+  "start": "route",
+  "nodes": {
+    "route": {
+      "nextIf": [{ "if": ["time<=7:00"], "next": "ontime" }],
+      "next": "late"
+    },
+    "ontime": {
+      "record": "On site at {time}.",
+      "effects": [
+        "add:count.onTime=1",
+        "set:today.onTime",
+        { "quest": "shift", "objective": "On site at {time}. On time." },
+        { "if": ["purpose=work"], "then": ["proof:purpose:On site on time."] },
+        { "if": ["promiseOnTime"], "then": ["add:count.promisesKept=1"] }
+      ],
+      "textIf": [
+        { "if": ["count.onTime<3"], "text": ["Ray says \"Morning\" without looking up."] },
+        { "if": ["count.onTime>=3", "count.onTime<5"], "text": ["Ray says \"Morning\" and, for a second, looks up."] },
+        { "if": ["count.onTime>=5"], "text": ["Ray hands you the day's plans before he hands them to anyone else."] }
+      ],
+      "next": "work"
+    },
+    "late": {
+      "record": "On site at {time}. Late.",
+      "effects": ["add:count.late=1", "set:today.late", { "quest": "shift", "objective": "On site at {time}. Late." }],
+      "speaker": "Ray",
+      "textIf": [
+        { "if": ["promiseOnTime"], "text": ["Ray looks at his watch, then at you. He doesn't say anything. You told him it wouldn't be a pattern."] },
+        { "if": ["!promiseOnTime"], "text": ["\"You're late.\" He doesn't look up."] }
+      ],
+      "choices": [
+        {
+          "label": "\"That's on me.\"",
+          "result": ["Ray nods once. \"Okay.\""],
+          "record": "Owned being late.",
+          "effects": ["set:today.ownedMiss", "card:name-it", "proof:ownership:Owned being late to Ray."],
+          "next": "work"
+        },
+        {
+          "label": "\"Traffic on [Route 46].\"",
+          "result": ["Ray writes something down."],
+          "record": "Blamed traffic.",
+          "next": "work"
+        }
+      ]
+    },
+    "work": {
+      "textIf": [
+        { "if": ["weekday=tue", "stage=2"], "text": ["[Cole] works the saw next to you and talks the whole time: the forklift, his ex, a guy at [Tuck's] who swears he played minor league. It's a good story every time."] },
+        { "if": ["weekday=thu", "stage=2"], "text": ["The crew talks about Thursday like it's Friday. [Cole] keeps looking over at you like he has a question saved."] },
+        { "if": ["stage=3", "count.onTime>=4"], "text": ["Nobody says anything about you being on time anymore. It's just what you do. That's how a habit looks from outside."] }
+      ],
+      "text": ["Forms, rebar, a slab. You're good at the parts of this job nobody sees."],
+      "effects": [
+        "set:today.shiftDone",
+        "add:count.shifts=1",
+        {
+          "if": ["stage=3", "s3day>=3", "any:weekday=thu|s3day>=5", "!seen.real-new-fact"],
+          "then": ["time:=15:00", "scene:real-new-fact", { "quest": "shift", "objective": "Ray's walking over with the clipboard." }],
+          "else": ["time:=15:30", "record:Worked the shift.", { "quest": "shift", "objective": "Worked the shift." }]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "id": "saturday-voice",
+  "title": "You're tired",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Saturday morning, if you promised Dana. The outline's line: \"You're tired. She'll understand.\" Keep it or break it. Either way, the record says which. Claude's draft.",
+    "Being tired is true. It isn't a new fact. So It's a plan change counts as a delay here, and says so.",
+    "Getting up for Dana is acting, but it isn't your daily floor, so it doesn't count toward a day of structure."
+  ],
+  "setting": "bedroom",
+  "after": "continue",
+  "tag": {
+    "framework": "The PERIOD Code",
+    "item": "Ownership"
+  },
+  "open": "You're tired. She'll understand.",
+  "rounds": [
+    "She's probably tired too. Text her. She'll be relieved.",
+    "Next Saturday. You'll be rested."
+  ],
+  "pushback": {
+    "name-it": "It's not hiding. It's one night.",
+    "phone-kitchen": "What if somebody needs you?",
+    "remove-access": "One beer was never the problem.",
+    "text-dana": "She'll just say it's fine.",
+    "show-record": "Those are just lines on a list.",
+    "remember-why": "That's a nice idea. You're tired.",
+    "plan-change": "See? Even you think it's a plan change.",
+    "floor": "You don't have to go to prove anything.",
+    "waiting": "You're tired. That's the reason."
+  },
+  "answers": {
+    "floor": "I'm not proving anything. I said I'd be there.",
+    "waiting": "Tired is true. It isn't new."
+  },
+  "floor": [
+    {
+      "label": "Get up and go. 9 at the diner.",
+      "text": [
+        "Shower, shoes, out the door."
+      ],
+      "record": "Got up for Saturday with Dana.",
+      "effects": [
+        "scene:saturday-diner"
+      ]
+    }
+  ],
+  "outcomes": {
+    "acted": {
+      "label": "Acted",
+      "text": [
+        "You get up. You're tired, and you go anyway. Tired isn't a new fact."
+      ],
+      "effects": [
+        "set:resolveCarry"
+      ]
+    },
+    "delayed": {
+      "label": "Delayed",
+      "text": [
+        "You tell yourself you'll make it up to her. You don't go.",
+        "At 9:20, a text: \"ok.\""
+      ],
+      "record": "Didn't go to Saturday with Dana.",
+      "effects": [
+        "time:=9:20",
+        "unset:danaPromised",
+        "set:danaStopped",
+        "trust:-1",
+        "restart:saturday",
+        {
+          "quest": "saturday",
+          "status": "closed",
+          "objective": "You didn't go. She said ok."
+        }
+      ]
+    },
+    "mislabeled": {
+      "label": "Delayed",
+      "text": [
+        "You text her: \"something came up.\" Nothing came up.",
+        "At 9:20: \"ok.\""
+      ],
+      "record": "Told Dana something came up. Nothing had.",
+      "effects": [
+        "time:=9:20",
+        "add:count.mislabeled=1",
+        "unset:danaPromised",
+        "set:danaStopped",
+        "trust:-1",
+        "restart:saturday",
+        {
+          "quest": "saturday",
+          "status": "closed",
+          "objective": "You said something came up. She said ok."
+        }
+      ]
+    },
+    "escaped": {
+      "phone": {
+        "label": "Escaped",
+        "text": [
+          "The phone, then the ceiling, then the phone. It felt good, the way not going always does.",
+          "At 9:20, a text: \"ok.\"",
+          "Tomorrow opens with the restart sequence."
+        ],
+        "record": "Still in bed with the phone. Didn't go to Saturday with Dana.",
+        "effects": [
+          "time:=9:40",
+          "unset:danaPromised",
+          "set:danaStopped",
+          "trust:-1",
+          "restart:saturday",
+          {
+            "quest": "saturday",
+            "status": "closed",
+            "objective": "You didn't go. She said ok."
+          }
+        ]
+      },
+      "drink": {
+        "label": "Escaped",
+        "text": [
+          "A beer at eight in the morning. It works, which is the problem.",
+          "At 9:20, a text: \"ok.\"",
+          "Tomorrow opens with the restart sequence."
+        ],
+        "record": "Beer in the morning. Didn't go to Saturday with Dana.",
+        "effects": [
+          "time:=9:40",
+          "add:cans=1",
+          "unset:danaPromised",
+          "set:danaStopped",
+          "trust:-1",
+          "restart:saturday",
+          {
+            "quest": "saturday",
+            "status": "closed",
+            "objective": "You didn't go. She said ok."
+          }
+        ]
+      },
+      "comfort": {
+        "label": "Escaped",
+        "text": [
+          "Back under the covers with the TV on. It's warm and it asks nothing.",
+          "At 9:20, a text: \"ok.\"",
+          "Tomorrow opens with the restart sequence."
+        ],
+        "record": "Stayed in with the TV. Didn't go to Saturday with Dana.",
+        "effects": [
+          "time:=9:40",
+          "unset:danaPromised",
+          "set:danaStopped",
+          "trust:-1",
+          "restart:saturday",
+          {
+            "quest": "saturday",
+            "status": "closed",
+            "objective": "You didn't go. She said ok."
+          }
+        ]
+      }
+    }
+  },
+  "floorCounts": false
+}

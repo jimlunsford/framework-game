@@ -1,0 +1,26 @@
+{
+  "id": "night-wed",
+  "title": "Wednesday night",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Starts the night's encounter at 9:40 p.m., wherever you are: the couch at home, the bar if you're there, otherwise the truck. Same rule as Monday."
+  ],
+  "trigger": {
+    "at": "time",
+    "time": "21:40",
+    "if": [
+      "stage=2",
+      "weekday=wed",
+      "day<8",
+      "!today.encounterDone"
+    ]
+  },
+  "start": "go",
+  "nodes": {
+    "go": {
+      "effects": [
+        "encounter:do-it-right"
+      ]
+    }
+  }
+}

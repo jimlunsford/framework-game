@@ -1,0 +1,70 @@
+{
+  "id": "marlenes-news",
+  "title": "Marlene's News",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, stage 3, side quest: \"The news board mentions you, for better or worse: seen at [Tuck's] at 11, or seen at the pantry Thursday. Private choices showing up in public is the Integrity rule at work.\" Claude's draft. The board items are in news.json."
+  ],
+  "trigger": {
+    "at": "enter",
+    "place": "diner",
+    "if": [
+      "stage=3",
+      "time<14:00",
+      "any:seenTucksLate|pantryDone|helpedDana|saturdayKept|count.shiftSkipped>=1|count.onTime>=5"
+    ]
+  },
+  "art": "diner",
+  "tag": {
+    "framework": "The PERIOD Code",
+    "item": "Integrity: private choices show up in public"
+  },
+  "start": "board",
+  "nodes": {
+    "board": {
+      "speaker": "[Marlene]",
+      "effects": [
+        {
+          "quest": "news",
+          "title": "Marlene's News",
+          "kind": "side",
+          "status": "closed",
+          "objective": "You made the board. Read it at the register."
+        }
+      ],
+      "text": [
+        "[Marlene] taps the board by the register with the coffee pot. \"You made the news.\"",
+        "\"Don't look at me. I just pin up what people tell me.\""
+      ],
+      "textIf": [
+        {
+          "if": [
+            "seenTucksLate"
+          ],
+          "text": [
+            "One card, in [Gus]'s handwriting, is about you at [Tuck's] at 11 on a weeknight."
+          ]
+        },
+        {
+          "if": [
+            "any:pantryDone|helpedDana|saturdayKept"
+          ],
+          "text": [
+            "One card is a thank-you with your name on it. You didn't think anybody saw."
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "label": "Read the board.",
+          "effects": [
+            "set:today.readBoard"
+          ],
+          "result": [
+            "Small town. Everyone sees everyone. The board just writes it down."
+          ]
+        }
+      ]
+    }
+  }
+}

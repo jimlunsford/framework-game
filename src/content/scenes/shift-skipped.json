@@ -1,0 +1,38 @@
+{
+  "id": "shift-skipped",
+  "title": "Your shift: skipped",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "The Scene Book: \"The game records whether you show up, honestly. Skipping is possible.\" Claude's draft of what that looks like.",
+    "A skipped shift opens the restart sequence the next morning."
+  ],
+  "trigger": { "at": "time", "time": "15:30", "daily": true, "if": ["workday", "!today.shiftDone", "!today.noShift"] },
+  "start": "ray",
+  "nodes": {
+    "ray": {
+      "record": "Didn't show up for the shift.",
+      "effects": ["add:count.shiftSkipped=1", "restart:shift", { "quest": "shift", "objective": "Didn't show up today." }],
+      "speaker": "Ray",
+      "message": true,
+      "text": ["You coming tomorrow?"],
+      "choices": [
+        {
+          "label": "\"Yes. Today's on me.\"",
+          "result": ["A minute later: \"ok.\""],
+          "record": "Told Ray today was on me.",
+          "effects": ["set:today.ownedMiss", "card:name-it", "proof:ownership:Told Ray the skipped shift was on me."]
+        },
+        {
+          "label": "\"Something came up.\"",
+          "result": ["He doesn't answer. He doesn't have to."],
+          "record": "Told Ray something came up."
+        },
+        {
+          "label": "Don't answer.",
+          "result": ["The text sits there. So does tomorrow."],
+          "record": "Didn't answer Ray."
+        }
+      ]
+    }
+  }
+}

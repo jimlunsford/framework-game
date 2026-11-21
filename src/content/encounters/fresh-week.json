@@ -1,0 +1,56 @@
+{
+  "id": "fresh-week",
+  "title": "Fresh week",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Tuesday night. The Discipline Loop break point: waiting for readiness. The outline's line: \"Start Monday. Fresh week.\" Claude's draft.",
+    "The old voice learns to argue in the terms of the escape you lean on (outline cast): the opening changes with your pattern."
+  ],
+  "tag": {
+    "framework": "The Discipline Loop",
+    "item": "break point: waiting for readiness"
+  },
+  "open": "One good day. Don't push it. Start fresh next Monday, when you're ready.",
+  "openIf": [
+    {
+      "if": [
+        "count.outcome_escaped>=1",
+        "pattern=drink"
+      ],
+      "text": "You already blew Monday. Have a couple. Start fresh next week."
+    },
+    {
+      "if": [
+        "count.outcome_escaped>=1",
+        "pattern=phone"
+      ],
+      "text": "You already blew Monday. Just scroll. Start fresh next week."
+    },
+    {
+      "if": [
+        "count.outcome_escaped>=1"
+      ],
+      "text": "You already blew Monday. Start next Monday. Fresh week."
+    }
+  ],
+  "rounds": [
+    "You'll do it right when you're ready.",
+    "Start Monday. Fresh week."
+  ],
+  "pushback": {
+    "name-it": "It's not hiding. It's one night.",
+    "phone-kitchen": "What if somebody needs you?",
+    "remove-access": "One beer was never the problem.",
+    "text-dana": "She doesn't need your problems.",
+    "show-record": "Those are just lines on a list.",
+    "remember-why": "That's a nice idea. You're tired.",
+    "plan-change": "See? Even you think it's a plan change.",
+    "floor": "Ten minutes won't change anything.",
+    "waiting": "Monday. A clean start. That's the reason."
+  },
+  "answers": {
+    "floor": "It won't change everything. It's ten minutes I didn't skip.",
+    "show-record": "They're lines I wrote by doing them.",
+    "waiting": "That's a date, not a reason."
+  }
+}

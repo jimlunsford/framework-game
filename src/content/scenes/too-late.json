@@ -1,0 +1,20 @@
+{
+  "id": "too-late",
+  "title": "Still up",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Binge-play guard from decisions.md: the character needs sleep, and an all-nighter is an escape choice that costs the next day. JIM: past 12:30 a.m. the day ends on its own. The docs don't give a time; Claude picked 12:30."
+  ],
+  "trigger": { "at": "time", "time": "24:30", "daily": true, "if": ["!today._bedDone"] },
+  "art": "bedroom@night",
+  "start": "late",
+  "nodes": {
+    "late": {
+      "record": "Still up at {time}.",
+      "effects": ["go:home:bedroom", "set:tomorrow.tired"],
+      "text": ["{time}. You're still up. Your body files a complaint you can't ignore.", "You go home. Tomorrow will know about tonight."],
+      "next": "sleep"
+    },
+    "sleep": { "effects": ["bed"] }
+  }
+}
