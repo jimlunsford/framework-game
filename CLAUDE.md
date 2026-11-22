@@ -53,16 +53,59 @@ npm run build          # typecheck, then build to dist/
 npm run preview        # serve dist/ to check the production build
 npm run typecheck
 npm run check-content  # validate content references, statuses, conditions and effects
+npm test               # typecheck, check-content and the Scene Book round-trip test
 npm run playtest       # build first; plays the whole slice in headless Chromium
+npm run review-check   # build first; opens every scene and encounter in review mode
+npm run export-scenes  # scenes and encounters to Markdown in docs/scenes/
+npm run import-scenes  # edited Markdown back into the JSON (report only; --apply writes)
+npm run package        # build and zip dist/ for itch.io, into release/
 ```
 
 `npm run playtest` serves `dist/` from a subfolder (like itch.io does), then plays two paths (a "good" path and a "messy" path with escapes, delays, a skipped shift and a restart) on a phone viewport (390x844) and a desktop viewport (1280x800). It fails if a run doesn't reach the end, if any screen shows streak, countdown, score or loss wording, if a page scrolls sideways, or if the save doesn't survive a reload. Screenshots go to `playtest-output/` (ignored by git). Options: `--path=good|messy`, `--viewport=phone|desktop`, `--record=1` to print the record.
 
 ### Publishing to itch.io
 
-1. `npm run build`
-2. Zip the contents of `dist/` (so `index.html` is at the top of the zip, not inside a folder).
-3. On itch.io: kind of project "HTML", upload the zip, check "This file will be played in the browser". A mobile-friendly viewport works best.
+1. `npm run package`. It builds, then zips `dist/` to `release/framework-game-<version>-itch.zip` with `index.html` at the top. That build includes review mode, reachable only with `?review=1`. For the public page, `npm run package -- --public` leaves review mode out of the build entirely.
+2. On itch.io: kind of project "HTML", upload the zip, check "This file will be played in the browser". A mobile-friendly viewport works best. Keep it a private draft until Jim says.
+
+## Jim's edit pass: review mode and the Scene Book round trip
+
+These tools are for reading and editing drafts. They never change a scene's words on their own.
+
+### Review mode (`?review=1`)
+
+Open the game with `?review=1` (dev server: `http://localhost:5173/?review=1`; a build or the itch.io draft: add `?review=1` to the game's URL). Nothing in the game links to it, and its code (`src/review/review.ts`) loads only with that flag, as its own chunk. A normal visit is unchanged.
+
+- The list shows every scene and encounter, grouped and ordered by `src/content/review.json` (locked Monday opening, Monday side scenes, stage 2, stage 3, any-day scenes, encounters), each with its status. Anything not in a group shows at the end under "Not sorted yet", and `check-content` notes it. Add new scenes to `review.json`.
+- Opening one (`#/scene/<id>` or `#/encounter/<id>`) runs it on the real engine with its art. It starts from a state that fits its trigger (or the trigger of whatever starts it). Choices, results, record lines written and notices all show. With Details on (the default), lines and choices hidden by a condition show dimmed with their condition, and a hidden choice can still be followed: the state is set so its condition holds. Empty placeholders show by name, like `‹ceiling›`.
+- **State** opens a sheet with the day, clock, place, stage, escape pattern and every value this scene's conditions read (flags like `danaPromised`, `beerGone`, `today.phoneInKitchen`), each with whether its conditions hold. "Set any value" takes `key=value`, `key`, or `!key`. Encounters also list the earned cards.
+- Encounters can be played. Before the first card, − and + set the starting Resolve and Pull. "Start over" replays with the same numbers.
+- When a scene hands off (a `scene:` or `encounter:` effect), "Go on with this state" opens the next one with the state as it stands.
+- The review game never saves and never runs the next scene by itself (`ReviewGame` overrides `emit` and `settle`). The player's save is untouched. Labels live in `review.json` under `labels`.
+
+### Scene Book export (`npm run export-scenes`)
+
+Writes every scene and encounter to Markdown in the Scene Book's reading format: `docs/scenes/<id>.md` for scenes, `docs/scenes/encounter-<id>.md` for encounters (a scene and an encounter can share an id), and all of them in review order in `docs/scene-book-drafts.md` for reading or uploading to Google Drive. The combined file is never imported.
+
+Each file opens with the title, `**Status:**`, the group, the content file and a version (a fingerprint of the JSON), when it runs, and the notes (Claude's guesses and JIM questions). Then each step of the scene as `## <step id>`: narration as paragraphs, choices in bold, results after `→`, `*Record: ...*` lines, and other words effects carry (quest objectives, notices, proof, `*Also on the record: ...*`). Italic lines that say when something shows (`*Only when ...:*`, `*Only if ...*`) or where a choice goes (`*Next: ...*`) come from structure.
+
+Export won't overwrite a Markdown file that was edited since the last export and not imported yet (it keeps a hash per file in `docs/scenes/.export-manifest.json`); `--force` overwrites. Run it after changing content so `docs/scenes/` stays current.
+
+### Import edits (`npm run import-scenes`)
+
+Reads `docs/scenes/*.md` back into the JSON. Without `--apply` it only prints a report: every changed line, per scene, old line `-` and new line `+`. With `--apply` it writes. Rules:
+
+- Words can change: titles, status, notes, framework tags, speakers, paragraphs (add, edit or remove), choice labels and notes, results, record lines, and the words inside effects. A paragraph can wrap over several lines; blank lines separate blocks.
+- Structure can't: headings, conditions, `*Next: ...*` lines, triggers. Changing one is refused with the line number. Ask Claude for structural changes.
+- Any change to a scene whose JSON status is `locked` is refused, and the report names it.
+- `**Status:** locked` on a draft is allowed and carries into the JSON. Status must be `locked` or `draft, waiting on Jim`.
+- Markdown exported from an older version of the JSON is refused, so stale edits can't undo newer work. Re-export and redo the edits.
+- If anything is refused, nothing is written.
+- Writes keep each JSON file's layout: only the changed values are rewritten. After writing it re-exports those files' Markdown with the new version. Then run `npm run check-content` and `npm run build`.
+
+The code is in `scripts/scenebook/`: `format.mjs` (one plan per scene that both renders and parses the Markdown, so the two can't drift), `jsonedit.mjs` (layout-keeping JSON writes), `book.mjs` (export and import), `content.mjs` (loading). `npm run test-roundtrip` (part of `npm test`) exports to a temp folder, imports with no edits and expects zero changes, then checks the locked refusal, draft to locked, word edits, structure refusal, stale versions, and that export keeps unimported edits.
+
+Shared files (`actions.json`, `cards.json`, `outcomes.json`, `floors.json`, `news.json`, `people.json`, `places.json`, `lines.json`) are not in the export yet.
 
 ## Layout
 
@@ -71,13 +114,18 @@ index.html            entry page
 src/main.ts           mounts the app
 src/styles.css        all styles
 src/ui/app.ts         screens, sheets, rendering, input (data-act event delegation)
+src/review/review.ts  review mode (?review=1 only): scene list, scene viewer, state sheet
 src/engine/           rules: game.ts (clock, triggers, effects, day end), encounter.ts,
                       conditions.ts, state.ts (save shape), content.ts (loads JSON),
                       time.ts, standard.ts (the standard-line check), types.ts
 src/art/              SVG: places.ts (one image per place/room), portrait.ts, map.ts
 src/content/          every word of story and interface text (see below)
-scripts/              check-content.mjs, playtest.mjs
+scripts/              check-content.mjs, playtest.mjs, review-check.mjs, package.mjs,
+                      export-scenes.mjs, import-scenes.mjs, test-roundtrip.mjs,
+                      scenebook/ (the Markdown format, export and import)
 docs/                 decisions, Scene Book, source books
+docs/scenes/          one Markdown file per scene and encounter (export-scenes)
+docs/scene-book-drafts.md   all of them in one file, for reading and Google Drive
 ```
 
 ## Content files
@@ -184,6 +232,7 @@ Strings of the form `verb:arg`, or objects:
 - `news.json`: the diner's news board (town news by day, news about you by condition).
 - `creator.json`: character creator options and starting lives.
 - `lines.json`: interface text.
+- `review.json`: review mode's grouping and order (also the export's order) and its labels. Not part of the game.
 
 After changing content, run `npm run check-content`, then `npm run build && npm run playtest` for anything that changes the flow.
 

@@ -10,7 +10,13 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "check-content": "node scripts/check-content.mjs",
-    "playtest": "node scripts/playtest.mjs"
+    "playtest": "node scripts/playtest.mjs",
+    "export-scenes": "node scripts/export-scenes.mjs",
+    "import-scenes": "node scripts/import-scenes.mjs",
+    "test-roundtrip": "node scripts/test-roundtrip.mjs",
+    "test": "npm run typecheck && npm run check-content && npm run test-roundtrip",
+    "review-check": "node scripts/review-check.mjs",
+    "package": "node scripts/package.mjs"
   },
   "devDependencies": {
     "typescript": "5.6.3",

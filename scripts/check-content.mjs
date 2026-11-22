@@ -159,6 +159,21 @@ for (const a of actions) {
 for (const p of people) for (const s of p.schedule) if (!placeIds.has(s.place)) err(`people.json ${p.id}`, `unknown place ${s.place}`);
 for (const c of Object.values(cards)) if (!lines[`card.kind.${c.kind}`]) err('cards.json', `no line for card kind ${c.kind}`);
 
+// Review order (review.json): every listed item exists and is listed once. Anything left out
+// still shows in review mode, under "Not sorted yet", so that's a warning, not an error.
+const review = read('review.json');
+const listed = new Set();
+for (const g of review.groups) {
+  for (const key of g.items) {
+    const [kind, id] = key.split(':');
+    if (!(kind === 'scene' ? scenes[id] : kind === 'encounter' ? encounters[id] : null)) err('review.json', `${g.id} lists ${key}, which doesn't exist`);
+    if (listed.has(key)) err('review.json', `${key} is listed twice`);
+    listed.add(key);
+  }
+}
+const unsorted = [...Object.keys(scenes).map((id) => `scene:${id}`), ...Object.keys(encounters).map((id) => `encounter:${id}`)].filter((k) => !listed.has(k));
+if (unsorted.length) console.log(`Note: not in a review group yet (add them to src/content/review.json): ${unsorted.join(', ')}`);
+
 console.log(`Scenes: ${Object.keys(scenes).length} (${locked} locked, ${draft} draft). Encounters: ${Object.keys(encounters).length}. Actions: ${actions.length}. Cards: ${Object.keys(cards).length}.`);
 if (errors.length) {
   console.error(`\n${errors.length} problem(s):\n` + errors.map((e) => `  - ${e}`).join('\n'));
