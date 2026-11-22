@@ -1195,3 +1195,201 @@ textarea {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* ---------- review mode (?review=1). Jim's edit pass only; players never see it. ---------- */
+.rv a.icon-btn,
+.rv a.btn {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+.rv .tabs a.rv-tab {
+  flex: 1;
+  max-width: 140px;
+  padding: 8px 4px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  color: inherit;
+}
+.rv .tabs a.rv-tab:hover {
+  background: var(--cream);
+}
+.rv .tabs button[aria-pressed='true'] {
+  background: var(--cream);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.rv-list h2 {
+  margin-top: 22px;
+}
+.rv-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.rv-item {
+  display: block;
+  padding: 10px 12px;
+  margin: 0 0 6px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+.rv-item:hover,
+.rv-item:focus-visible {
+  border-color: var(--teal);
+}
+.rv-item-title {
+  display: block;
+  font-weight: 600;
+}
+.rv-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: center;
+  font-size: 13px;
+  margin-top: 2px;
+}
+.rv-badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 1px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.rv-badge.locked {
+  background: var(--teal);
+  color: var(--paper);
+}
+.rv-badge.draft {
+  background: var(--mustard);
+  color: var(--ink);
+}
+.rv-head {
+  margin-bottom: 14px;
+}
+.rv-head h2 {
+  margin: 0 0 4px;
+}
+.rv-notes {
+  margin: 8px 0 0;
+  font-size: 14px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 8px 12px;
+}
+.rv-notes summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.rv-notes ul {
+  padding-left: 18px;
+  margin: 6px 0;
+}
+.rv code {
+  font-size: 12.5px;
+  background: rgba(42, 45, 52, 0.07);
+  padding: 0 4px;
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+}
+.rv-cond {
+  font-size: 13px;
+  color: var(--teal-dark);
+  margin: 4px 0;
+}
+.rv-hidden {
+  opacity: 0.55;
+  border-left: 3px dashed var(--ink-soft);
+  padding-left: 10px;
+  margin-bottom: 12px;
+}
+.rv-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.rv-off .choice {
+  opacity: 0.6;
+  border-style: dashed;
+}
+.rv-meta {
+  font-size: 13px;
+  color: var(--ink-soft);
+  padding: 0 4px 6px 18px;
+  overflow-wrap: anywhere;
+}
+.rv-step {
+  font-size: 13px;
+}
+.rv-records {
+  margin-top: 24px;
+}
+.rv-jump {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.rv select,
+.rv input[type='number'],
+.rv input[type='text'],
+.rv input[type='time'],
+.rv input[type='search'] {
+  font: inherit;
+  font-size: 15px;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  max-width: 100%;
+}
+.rv input[type='search'] {
+  width: 100%;
+}
+.rv input[type='number'] {
+  width: 90px;
+}
+.rv-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+.rv-row > label {
+  flex: 1 1 140px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.rv-atoms {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+  font-size: 12.5px;
+  padding: 4px 0;
+}
+.rv-atoms .yes {
+  color: var(--teal-dark);
+}
+.rv-atoms .no {
+  color: var(--terracotta-dark);
+}
+.rv-adj {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.rv-small {
+  font-size: 13px;
+}

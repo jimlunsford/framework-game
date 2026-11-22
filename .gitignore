@@ -3,3 +3,4 @@ dist/
 playtest-output/
 *.log
 .DS_Store
+release/

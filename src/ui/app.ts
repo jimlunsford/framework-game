@@ -69,13 +69,13 @@ const L = (key: string) => line(key);
 const fill = (t: string) => (game ? game.fill(t) : t);
 const paras = (list: string[]) => list.map((p) => `<p>${esc(p)}</p>`).join('');
 
-function tagBox(tag?: Tag): string {
+export function tagBox(tag?: Tag): string {
   if (!tag) return '';
   return `<div class="tag"><span>${esc(tag.framework)}: ${esc(tag.item)}</span><br>
     <a href="${OE_URL}" target="_blank" rel="noopener">${esc(L('ui.learnLink'))}</a></div>`;
 }
 
-function artFor(key: string, s: State | null): string {
+export function artFor(key: string, s: State | null): string {
   let k = key;
   let forced = '';
   const at = key.indexOf('@');
@@ -300,7 +300,7 @@ function renderSceneNode(s: State): string {
   return html + tagBox(node.tag);
 }
 
-function renderReview(s: State): string {
+export function renderReview(s: State): string {
   const c = s.counts;
   const rows: string[] = [];
   const stat = (key: string, n: number) => rows.push(`<li>${esc(L(key).replace('{n}', String(n)))}</li>`);
