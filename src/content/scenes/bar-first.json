@@ -1,0 +1,22 @@
+{
+  "id": "bar-first",
+  "title": "Opening: Monday. At the bar",
+  "status": "locked",
+  "notes": [
+    "Scene Book, Opening: Monday, section 5. The narration is the Scene Book's: \"The bartender sets your usual down before you ask. Nobody here judges you. That's the pull.\"",
+    "The Scene Book says the drinking escape lives here as a place. So the usual is set down here, and the bar's actions (Have your usual, Club soda with lime) are where you choose. Those actions are Claude's drafts in actions.json."
+  ],
+  "trigger": {
+    "at": "enter",
+    "place": "bar"
+  },
+  "art": "bar",
+  "start": "usual",
+  "nodes": {
+    "usual": {
+      "text": [
+        "The bartender sets your usual down before you ask. Nobody here judges you. That's the pull."
+      ]
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "dana-fri",
+  "title": "Dana's text: Friday",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline cast: \"If you bail again, she says 'ok' and stops asking, and her trust comes back on her schedule, not yours.\" Claude's draft."
+  ],
+  "trigger": { "at": "time", "time": "12:30", "if": ["weekday=fri", "danaPromised", "!danaStopped", "!saturdayKept", "!danaPending"] },
+  "start": "msg",
+  "nodes": {
+    "msg": {
+      "speaker": "Dana",
+      "message": true,
+      "effects": [{ "if": ["!danaPending"], "then": ["set:today.danaAsked"] }],
+      "text": ["tomorrow. 9. you're still coming?"],
+      "choices": [
+        {
+          "label": "\"I'll be there.\"",
+          "result": ["\"ok.\""],
+          "record": "Answered Dana. Still on for Saturday.",
+          "effects": ["unset:danaPending", { "if": ["today.danaAsked"], "then": ["add:count.danaSameDay=1", { "if": ["purpose=dana"], "then": ["proof:purpose:Answered Dana the same day."] }] }]
+        },
+        {
+          "label": "\"Actually, I can't make it.\"",
+          "result": ["\"ok.\"", "That's all. She doesn't ask why. She doesn't ask again."],
+          "record": "Bailed on Saturday with Dana.",
+          "effects": ["unset:danaPending", "unset:danaPromised", "set:danaStopped", "trust:-1", "restart:saturday", { "quest": "saturday", "status": "closed", "objective": "You bailed. She said ok." }]
+        },
+        {
+          "label": "Later.",
+          "if": ["!danaPending"],
+          "effects": ["set:danaPending", "set:danaAsk=fri", { "quest": "saturday", "objective": "Dana asked if you're still coming. Not answered yet." }]
+        },
+        { "label": "Not yet.", "if": ["danaPending"], "next": null }
+      ]
+    }
+  }
+}

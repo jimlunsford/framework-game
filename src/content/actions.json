@@ -1,0 +1,302 @@
+{
+  "_note": "Things you can do in a place. place \"*\" means anywhere (the phone in your pocket). Draft wording, waiting on Jim. Records state facts with times. JIM: Call it a night shows at home from 6 p.m. It moves the clock to 9:40 p.m. and night falls, so that night's encounter still comes first.",
+  "actions": [
+    {
+      "id": "answer-dana-mon",
+      "place": "*",
+      "label": "Answer Dana",
+      "note": "\"Still on for Saturday?\"",
+      "if": ["danaPending", "danaAsk=mon"],
+      "scene": "dana-text",
+      "node": "msg"
+    },
+    {
+      "id": "answer-dana-wed",
+      "place": "*",
+      "label": "Answer Dana",
+      "note": "Her text from today.",
+      "if": ["danaPending", "danaAsk=wed"],
+      "scene": "dana-wed",
+      "node": "msg"
+    },
+    {
+      "id": "answer-dana-fri",
+      "place": "*",
+      "label": "Answer Dana",
+      "note": "\"tomorrow. 9. you're still coming?\"",
+      "if": ["danaPending", "danaAsk=fri"],
+      "scene": "dana-fri",
+      "node": "msg"
+    },
+    {
+      "id": "check-phone",
+      "place": "*",
+      "label": "Check the phone",
+      "note": "Escape: the phone. About half an hour.",
+      "escape": true,
+      "if": ["any:!place=home|!today.phoneInKitchen", "time<23:30"],
+      "minutes": 30,
+      "record": "Half an hour on the phone.",
+      "result": ["It's quiet in there. Nothing asks anything of you. Then it's {time}.", "The phone gains pull."],
+      "effects": [
+        "add:pull.phone=1",
+        "add:today.escapes=1",
+        "add:count.escapeAction=1",
+        { "if": ["day=1", "!seen.dana-text"], "then": ["scene:dana-text"] }
+      ]
+    },
+    {
+      "id": "coffee-home",
+      "place": "home",
+      "room": "kitchen",
+      "label": "Make coffee",
+      "note": "10 minutes",
+      "if": ["time<11:00", "!today.coffee"],
+      "minutes": 10,
+      "result": ["The machine coughs, then works. It's {time}."],
+      "effects": ["set:today.coffee"]
+    },
+    {
+      "id": "cans",
+      "place": "home",
+      "room": "kitchen",
+      "label": "Take the cans out",
+      "note": "10 minutes, maybe less",
+      "if": ["cans>0", "!floorKind=kitchen"],
+      "minutes": 10,
+      "record": "Took the cans out at {time}.",
+      "result": ["Rinse, crush, out to the bin. The counter looks bigger than it did."],
+      "effects": ["set:cans=0", "set:today.cansDone", { "if": ["quest.cans=active"], "then": [{ "quest": "cans", "status": "closed", "objective": "Done." }] }]
+    },
+    {
+      "id": "floor-kitchen",
+      "place": "home",
+      "room": "kitchen",
+      "label": "Ten minutes on the kitchen",
+      "note": "Your floor",
+      "if": ["floorKind=kitchen", "!today.floorDone"],
+      "minutes": 10,
+      "record": "Floor: ten minutes on the kitchen at {time}.",
+      "result": ["Timer on the stove. Dishes, counter, cans. Done when it beeps."],
+      "effects": ["set:today.floorDone", "set:cans=0", "set:today.cansDone"]
+    },
+    {
+      "id": "ceiling-house",
+      "place": "home",
+      "label": "Reset the whole place",
+      "note": "Your ceiling. About an hour.",
+      "if": ["ceilingKind=house", "!today.ceilingDone", "time>=15:00"],
+      "minutes": 60,
+      "record": "Ceiling: reset the whole place, {time}.",
+      "result": ["Kitchen, living room, laundry, trash out. It's {time} and the place looks like someone lives here on purpose."],
+      "effects": ["set:today.ceilingDone", "set:today.floorDone", "set:cans=0", "set:today.cansDone"]
+    },
+    {
+      "id": "walk-block",
+      "place": "home",
+      "label": "Walk around the block",
+      "note": "About 10 minutes",
+      "if": ["time>=6:00", "time<22:30", "!today.walked"],
+      "minutes": 12,
+      "result": ["Around the block. Somebody's sprinkler. Somebody's dog. Back by {time}."],
+      "effects": [
+        "set:today.walked",
+        "add:count.walks=1",
+        {
+          "if": ["floorKind=walk", "!today.floorDone"],
+          "then": ["set:today.floorDone", "record:Floor: walked 10 minutes at {time}.", { "if": ["purpose=body"], "then": ["proof:purpose:Walked the floor."] }],
+          "else": ["record:Walked around the block at {time}."]
+        }
+      ]
+    },
+    {
+      "id": "order-in",
+      "place": "home",
+      "label": "Order in and zone out",
+      "note": "Escape: comfort. About an hour.",
+      "escape": true,
+      "if": ["time>=11:00", "time<23:00"],
+      "minutes": 60,
+      "record": "Ordered in. Zoned out.",
+      "result": ["The food is fine. An hour goes somewhere. It's {time}."],
+      "effects": ["add:pull.comfort=1", "add:today.escapes=1", "add:count.escapeAction=1"]
+    },
+    {
+      "id": "rest",
+      "place": "home",
+      "room": "living",
+      "label": "Rest for an hour",
+      "note": "Feet up, nothing on",
+      "if": ["time<21:00"],
+      "minutes": 60,
+      "result": ["An hour, feet up, nothing on. Restoring or hiding? The record doesn't ask. You can."]
+    },
+    {
+      "id": "call-it-a-night",
+      "place": "home",
+      "label": "Call it a night",
+      "note": "The day ends here. Sleep is the stopping point.",
+      "if": ["time>=18:00"],
+      "effects": ["time:=21:40", "bed"]
+    },
+    {
+      "id": "diner-coffee",
+      "place": "diner",
+      "label": "Coffee at the counter",
+      "note": "20 minutes",
+      "if": ["!today.dinerCoffee"],
+      "minutes": 20,
+      "result": ["Hot, bitter, refilled before you ask. It's {time}."],
+      "effects": ["set:today.dinerCoffee"]
+    },
+    {
+      "id": "diner-eat",
+      "place": "diner",
+      "label": "Eat something real",
+      "note": "30 minutes",
+      "if": ["!today.dinerAte"],
+      "minutes": 30,
+      "result": ["Eggs, toast, the good hot sauce. You eat like someone who had time to."],
+      "effects": ["set:today.dinerAte"]
+    },
+    {
+      "id": "news-board",
+      "place": "diner",
+      "label": "Read the news board",
+      "note": "Town news lives here",
+      "panel": "news",
+      "minutes": 5
+    },
+    {
+      "id": "gym-ceiling",
+      "place": "gym",
+      "label": "Work out, 40 minutes",
+      "note": "About 45 minutes with the walk in",
+      "if": ["!today.gymDone"],
+      "minutes": 45,
+      "result": ["Forty minutes. Your shirt is a different color than when you started."],
+      "effects": [
+        "set:today.gymDone",
+        "add:count.gymDays=1",
+        {
+          "if": ["any:ceilingKind=gym|ceilingKind=deshawn"],
+          "then": ["set:today.ceilingDone", "set:today.floorDone", "record:Ceiling: 40 minutes at the gym, {time}.", { "if": ["purpose=body"], "then": ["proof:purpose:Hit the ceiling at the gym."] }],
+          "else": ["record:Worked out at the gym, {time}."]
+        }
+      ]
+    },
+    {
+      "id": "gym-floor",
+      "place": "gym",
+      "label": "[Deshawn]'s ten minutes",
+      "note": "Your floor",
+      "if": ["floorKind=deshawn", "!today.floorDone"],
+      "minutes": 12,
+      "record": "Floor: [Deshawn]'s ten minutes at {time}.",
+      "result": ["Three moves, ten minutes. [Deshawn] doesn't watch, which is how you know he noticed."],
+      "effects": ["set:today.floorDone", { "if": ["purpose=body"], "then": ["proof:purpose:Did [Deshawn]'s ten minutes."] }]
+    },
+    {
+      "id": "home-deshawn-floor",
+      "place": "home",
+      "room": "living",
+      "label": "[Deshawn]'s ten minutes, on the living room floor",
+      "note": "Your floor",
+      "if": ["floorKind=deshawn", "!today.floorDone", "time>=5:00", "time<23:00"],
+      "minutes": 12,
+      "record": "Floor: [Deshawn]'s ten minutes at {time}.",
+      "result": ["Three moves between the couch and the TV. Ten minutes. Done."],
+      "effects": ["set:today.floorDone", { "if": ["purpose=body"], "then": ["proof:purpose:Did [Deshawn]'s ten minutes."] }]
+    },
+    {
+      "id": "bar-usual",
+      "place": "bar",
+      "label": "Have your usual",
+      "note": "Escape: drinking. About 45 minutes.",
+      "escape": true,
+      "minutes": 45,
+      "record": "A beer at [Tuck's].",
+      "result": ["[Gus] doesn't ask. He doesn't have to. It's {time}.", "Drinking gains pull."],
+      "effects": [
+        "add:pull.drink=1",
+        "add:today.escapes=1",
+        "add:today.barDrinks=1",
+        "add:today.barTime=45",
+        "add:count.escapeAction=1",
+        { "if": ["time>=22:30"], "then": ["set:seenTucksLate"] }
+      ]
+    },
+    {
+      "id": "bar-soda",
+      "place": "bar",
+      "label": "Club soda with lime",
+      "note": "30 minutes",
+      "minutes": 30,
+      "result": ["[Gus] doesn't make a thing of it. The game is still on with the sound off."],
+      "effects": ["add:today.barTime=30"]
+    },
+    {
+      "id": "pew",
+      "place": "church",
+      "label": "Sit in the back pew a while",
+      "note": "20 minutes",
+      "minutes": 20,
+      "result": ["Nobody asks you anything. The building creaks like it's thinking."]
+    },
+    {
+      "id": "pantry",
+      "place": "church",
+      "label": "Help at the pantry",
+      "note": "One hour",
+      "if": ["weekday=thu", "time>=16:30", "time<18:00", "!today.pantry"],
+      "scene": "short-shelves-thursday"
+    },
+    {
+      "id": "track",
+      "place": "park",
+      "label": "Walk the track",
+      "note": "About 10 minutes",
+      "if": ["!today.walkedTrack"],
+      "minutes": 12,
+      "result": ["One lap and a half. The river keeps its own time."],
+      "effects": [
+        "set:today.walkedTrack",
+        "add:count.walks=1",
+        {
+          "if": ["floorKind=walk", "!today.floorDone"],
+          "then": ["set:today.floorDone", "record:Floor: walked 10 minutes at {time}.", { "if": ["purpose=body"], "then": ["proof:purpose:Walked the floor."] }],
+          "else": ["record:Walked the track at {time}."]
+        }
+      ]
+    },
+    {
+      "id": "bench",
+      "place": "park",
+      "label": "Sit on the bench by the river",
+      "note": "20 minutes",
+      "minutes": 20,
+      "result": ["The water moves. You don't have to. Twenty minutes."]
+    },
+    {
+      "id": "gas-coffee",
+      "place": "gas",
+      "label": "Gas station coffee",
+      "note": "10 minutes",
+      "if": ["!today.gasCoffee"],
+      "minutes": 10,
+      "result": ["It's been on since six. It tastes like it."],
+      "effects": ["set:today.gasCoffee"]
+    },
+    {
+      "id": "gas-snacks",
+      "place": "gas",
+      "label": "Grab snacks for later",
+      "note": "Escape: comfort",
+      "escape": true,
+      "minutes": 10,
+      "record": "Bought snacks for later.",
+      "result": ["Chips, the big candy bar, a soda the size of your forearm. For later. Later is tonight."],
+      "effects": ["add:pull.comfort=1", "add:today.escapes=1", "add:count.escapeAction=1"]
+    }
+  ]
+}

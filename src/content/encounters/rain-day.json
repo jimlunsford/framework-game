@@ -1,0 +1,157 @@
+{
+  "id": "rain-day",
+  "title": "What can I still do?",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Rain Day's encounter, in the morning. Only the floor version is possible. The voice uses the no-daily-minimum argument. Claude's draft.",
+    "Resting on purpose counts as the floor today. Rest is never penalized; the question is restoring or hiding."
+  ],
+  "setting": "bedroom",
+  "after": "continue",
+  "tag": {
+    "framework": "The PERIOD Code",
+    "item": "Resilience: What can I still do?"
+  },
+  "intro": [
+    "Rain. A head cold. The day's plan is gone."
+  ],
+  "open": "You're sick. No way you're doing the full thing. So skip it.",
+  "rounds": [
+    "No time for the full thing, so skip it.",
+    "Rest all day. Rest on the phone. Rest at the bar. It's all rest."
+  ],
+  "pushback": {
+    "name-it": "It's not hiding. It's one night.",
+    "phone-kitchen": "What if somebody needs you?",
+    "remove-access": "One beer was never the problem.",
+    "text-dana": "She doesn't need your problems.",
+    "remember-why": "That's a nice idea. You're tired.",
+    "plan-change": "See? Even you think it's a plan change.",
+    "floor": "You're sick. Ten minutes is ten minutes too many.",
+    "waiting": "You're sick. That's the reason."
+  },
+  "answers": {
+    "floor": "So the ten minutes looks different today.",
+    "waiting": "Sick is real. It changes the plan. It doesn't cancel the floor."
+  },
+  "floorExtra": [
+    {
+      "label": "Rest on purpose: soup, water, phone in the kitchen, bed by 9",
+      "text": [
+        "Restoring, not hiding."
+      ],
+      "record": "Floor, the sick version: rested on purpose.",
+      "effects": [
+        "set:today.restOnPurpose",
+        "set:today.phoneInKitchen",
+        "set:today.offerPhoneKitchen"
+      ]
+    },
+    {
+      "if": [
+        "floorKind=walk"
+      ],
+      "label": "Walk to the mailbox and back, in the rain",
+      "text": [
+        "It's not ten minutes. It's the version of ten minutes you have."
+      ],
+      "record": "Floor, the sick version: walked to the mailbox and back."
+    },
+    {
+      "if": [
+        "floorKind=kitchen"
+      ],
+      "label": "Five minutes on the kitchen, then the couch",
+      "text": [
+        "Dishes in the rack. That's it."
+      ],
+      "record": "Floor, the sick version: five minutes on the kitchen.",
+      "effects": [
+        "set:cans=0"
+      ]
+    },
+    {
+      "if": [
+        "floorKind=deshawn"
+      ],
+      "label": "[Deshawn]'s three moves, slow",
+      "text": [
+        "One round, slow. He'd tell you that counts."
+      ],
+      "record": "Floor, the sick version: [Deshawn]'s moves, slow."
+    }
+  ],
+  "floor": [],
+  "outcomes": {
+    "acted": {
+      "label": "Acted",
+      "text": [
+        "The floor, the sick version. It counts.",
+        "\"What can I still do?\" turned out to be the whole question."
+      ],
+      "effects": [
+        "set:today.morningKept",
+        "set:resolveCarry"
+      ]
+    },
+    "adjusted": {
+      "label": "Adjusted",
+      "text": [
+        "The facts changed: rain, a fever. The plan changes with them: today the floor is rest, on purpose."
+      ],
+      "record": "Changed the plan: sick and rained out. Rested on purpose.",
+      "effects": [
+        "set:today.morningKept",
+        "set:today.floorDone",
+        "set:today.restOnPurpose",
+        "set:today.phoneInKitchen"
+      ]
+    },
+    "delayed": {
+      "label": "Delayed",
+      "text": [
+        "You put all of it off. Being sick is a real reason to change the plan. It wasn't a reason to drop the floor. The floor today was rest, on purpose."
+      ],
+      "record": "Put it off to tomorrow. Sick."
+    },
+    "escaped": {
+      "phone": {
+        "label": "Escaped",
+        "text": [
+          "You lie there with the phone and the rain. Hours go. It felt like rest. It wasn't, quite.",
+          "Tomorrow opens with the restart sequence. It's a way back, not a punishment."
+        ],
+        "effects": [
+          "time:=12:30",
+          "restart:escaped",
+          "record:{time}. Still in bed with the phone."
+        ]
+      },
+      "drink": {
+        "label": "Escaped",
+        "text": [
+          "Beer and cold medicine. You know better. It worked for an hour.",
+          "Tomorrow opens with the restart sequence. It's a way back, not a punishment."
+        ],
+        "effects": [
+          "time:=13:00",
+          "add:cans=2",
+          "restart:escaped",
+          "record:{time}. Beer, with a cold."
+        ]
+      },
+      "comfort": {
+        "label": "Escaped",
+        "text": [
+          "Delivery, blankets, six episodes. Some of that was rest. You can't tell which part.",
+          "Tomorrow opens with the restart sequence. It's a way back, not a punishment."
+        ],
+        "effects": [
+          "time:=15:00",
+          "restart:escaped",
+          "record:{time}. Ordered in. Six episodes."
+        ]
+      }
+    }
+  }
+}

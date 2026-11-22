@@ -1,0 +1,196 @@
+{
+  "id": "you-earned-it",
+  "title": "You earned it",
+  "status": "locked",
+  "notes": [
+    "Scene Book, Opening: Monday, section 6. Approved by Jim, Nov 21, 2026. The opening line, the pushbacks, the answer, the third-round line and the outcome records for acting, delaying, scrolling and adjusting are the Scene Book's.",
+    "Where it happens follows the Scene Book: the couch at home by default, the bar if you're still there, the truck in a parking lot if you're out. The three one-line setting notes are taken from that sentence.",
+    "Claude's additions, waiting on Jim: the voice's reason when you play What am I waiting for? (\"Because it's late. Because you're tired. Because.\"), its pushback on Phone in the kitchen, the records for the beer and order-in escapes (in outcomes.json), and the record line \"Dana called at 9:45. Didn't go to her.\" when you leave her call unanswered.",
+    "JIM: Dana's call always comes on the second round. The Scene Book says only \"if a real new fact shows up\"; it doesn't say how often. A player who ends the encounter in one move never gets the call.",
+    "JIM: the round-two voice line is left quiet, so the third round's \"Start Monday. Fresh week.\" lands as the Scene Book places it."
+  ],
+  "setting": "night",
+  "tag": {
+    "framework": "The Discipline Loop",
+    "item": "waiting for readiness"
+  },
+  "introIf": [
+    {
+      "if": [
+        "place=home"
+      ],
+      "text": [
+        "9:40 p.m. On the couch at home."
+      ]
+    },
+    {
+      "if": [
+        "place=bar"
+      ],
+      "text": [
+        "9:40 p.m. At the bar."
+      ]
+    },
+    {
+      "if": [
+        "!place=home",
+        "!place=bar"
+      ],
+      "text": [
+        "9:40 p.m. In the truck in a parking lot."
+      ]
+    }
+  ],
+  "open": "Long day. You earned this. Start tomorrow.",
+  "rounds": [
+    "",
+    "Start Monday. Fresh week."
+  ],
+  "pushback": {
+    "name-it": "It's not hiding. It's one night.",
+    "floor": "Ten minutes won't change anything.",
+    "waiting": "Because it's late. Because you're tired. Because.",
+    "phone-kitchen": "What if somebody needs you?"
+  },
+  "answers": {
+    "floor": "It won't change everything. It's ten minutes I didn't skip."
+  },
+  "fact": {
+    "if": [
+      "day=1"
+    ],
+    "round": 2,
+    "time": "21:45",
+    "text": [
+      "9:45 p.m. Your phone rings. Dana. Her car died at the gas station on [Main]."
+    ],
+    "card": "go-to-dana"
+  },
+  "outcomes": {
+    "acted": {
+      "label": "Acted",
+      "text": [
+        "You did the floor version.",
+        "Resolve carries into tomorrow."
+      ],
+      "effects": [
+        "set:resolveCarry",
+        {
+          "if": [
+            "today.factOpen"
+          ],
+          "then": [
+            "record:Dana called at 9:45. Didn't go to her."
+          ]
+        }
+      ]
+    },
+    "delayed": {
+      "label": "Delayed",
+      "text": [
+        "\"Tomorrow,\" with no new reason."
+      ],
+      "record": "Put it off to tomorrow. Nothing changed.",
+      "effects": [
+        {
+          "if": [
+            "today.factOpen"
+          ],
+          "then": [
+            "record:Dana called at 9:45. Didn't go to her."
+          ]
+        }
+      ]
+    },
+    "escaped": {
+      "phone": {
+        "label": "Escaped",
+        "text": [
+          "You played an escape card. The game tells the truth: it felt good.",
+          "Then the cost lands overnight and in the morning, and tomorrow opens with the restart sequence. It's a way back, not a punishment."
+        ],
+        "record": "11:40 p.m. Still scrolling.",
+        "effects": [
+          "time:=23:40",
+          "set:tomorrow.tired",
+          "restart:escaped",
+          {
+            "if": [
+              "today.factOpen"
+            ],
+            "then": [
+              "record:Dana called at 9:45. Didn't go to her."
+            ]
+          }
+        ]
+      },
+      "drink": {
+        "label": "Escaped",
+        "text": [
+          "You played an escape card. The game tells the truth: it felt good.",
+          "Then the cost lands overnight and in the morning, and tomorrow opens with the restart sequence. It's a way back, not a punishment."
+        ],
+        "effects": [
+          {
+            "if": [
+              "place=bar"
+            ],
+            "then": [
+              "time:=23:30",
+              "set:seenTucksLate",
+              "record:{time}. Still at [Tuck's]."
+            ],
+            "else": [
+              "time:=23:10",
+              "add:cans=2",
+              "record:{time}. Two cans by the sink became four."
+            ]
+          },
+          "set:wakeNext=6:52",
+          "set:tomorrow.tired",
+          "restart:escaped",
+          {
+            "if": [
+              "today.factOpen"
+            ],
+            "then": [
+              "record:Dana called at 9:45. Didn't go to her."
+            ]
+          }
+        ]
+      },
+      "comfort": {
+        "label": "Escaped",
+        "text": [
+          "You played an escape card. The game tells the truth: it felt good.",
+          "Then the cost lands overnight and in the morning, and tomorrow opens with the restart sequence. It's a way back, not a punishment."
+        ],
+        "effects": [
+          "time:=22:50",
+          "restart:escaped",
+          "record:{time}. Ordered in. Zoned out.",
+          {
+            "if": [
+              "today.factOpen"
+            ],
+            "then": [
+              "record:Dana called at 9:45. Didn't go to her."
+            ]
+          }
+        ]
+      }
+    },
+    "adjusted": {
+      "label": "Adjusted",
+      "text": [
+        "Going to her is a real change of plan, and it puts you on the map at night."
+      ],
+      "record": "Changed the plan. Helped Dana. The facts changed.",
+      "effects": [
+        "set:helpedDana",
+        "go:gas",
+        "scene:dana-car"
+      ]
+    }
+  }
+}

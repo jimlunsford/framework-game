@@ -1,0 +1,128 @@
+{
+  "id": "just-this-once",
+  "title": "Just this once",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Cole's Thursday, at [Tuck's] after the shift. The Discipline Loop break point: negotiating with the standard. The outline's line: \"Just this once. You've been good.\" Going isn't wrong; the test is which card you play once you're there. Claude's draft.",
+    "After this, the evening goes on. The night encounter is skipped, since this was it."
+  ],
+  "setting": "bar",
+  "after": "continue",
+  "intro": [
+    "4:00 p.m. [Tuck's]. [Cole] is already ordering. [Gus] sets your usual down before you ask."
+  ],
+  "open": "Just this once. You've been good.",
+  "openIf": [
+    {
+      "if": [
+        "pattern=drink"
+      ],
+      "text": "Just this once. You've been good. And you're good at this part too."
+    }
+  ],
+  "tag": {
+    "framework": "The Discipline Loop",
+    "item": "break point: negotiating with the standard"
+  },
+  "rounds": [
+    "One won't count. Nobody's keeping score.",
+    "You'll get back on it tomorrow. Just this once."
+  ],
+  "pushback": {
+    "name-it": "It's not a deal. It's a beer.",
+    "phone-kitchen": "What if somebody needs you?",
+    "remove-access": "One beer was never the problem.",
+    "text-dana": "She doesn't need your problems.",
+    "show-record": "Those are just lines on a list.",
+    "remember-why": "That's a nice idea. You're tired.",
+    "plan-change": "See? Even you think it's a plan change.",
+    "floor": "You don't have to do that here.",
+    "waiting": "You've been good. That's the reason."
+  },
+  "answers": {
+    "floor": "It's ten minutes. I can do ten minutes anywhere.",
+    "show-record": "They're lines I wrote by doing them.",
+    "waiting": "Being good is the reason to keep going."
+  },
+  "floorExtra": [
+    {
+      "if": [
+        "place=bar"
+      ],
+      "label": "One club soda with the crew, then walk home",
+      "text": [
+        "You stay for the story about the forklift. Then you walk."
+      ],
+      "record": "Club soda at [Tuck's]. Walked home at {time}.",
+      "effects": [
+        "time:+40",
+        "set:today.walked",
+        "add:count.walks=1",
+        "go:home:living",
+        {
+          "if": [
+            "floorKind=walk"
+          ],
+          "then": [
+            "set:today.floorDone"
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": {
+    "acted": {
+      "label": "Acted",
+      "text": [
+        "You went, and you played the card you meant to.",
+        "[Cole] doesn't make a thing of it. He's [Cole]."
+      ],
+      "effects": [
+        "set:resolveCarry",
+        {
+          "quest": "cole",
+          "status": "closed",
+          "objective": "You went. You played the card you meant to."
+        }
+      ]
+    },
+    "delayed": {
+      "label": "Delayed",
+      "text": [
+        "You stay. You don't drink much, you don't leave either. \"Tomorrow\" does the deciding."
+      ],
+      "record": "Stayed at [Tuck's]. Put it off to tomorrow.",
+      "effects": [
+        "time:+90",
+        {
+          "quest": "cole",
+          "status": "closed",
+          "objective": "You went. You put the decision off."
+        }
+      ]
+    },
+    "escaped": {
+      "drink": {
+        "label": "Escaped",
+        "text": [
+          "It's a good night. That part is true. [Cole] tells the forklift story twice.",
+          "Tomorrow opens with the restart sequence. It's a way back, not a punishment."
+        ],
+        "effects": [
+          "time:=22:40",
+          "set:seenTucksLate",
+          "set:wakeNext=6:52",
+          "set:tomorrow.tired",
+          "restart:escaped",
+          "add:today.barDrinks=3",
+          "record:{time}. Still at [Tuck's].",
+          {
+            "quest": "cole",
+            "status": "closed",
+            "objective": "Just this once."
+          }
+        ]
+      }
+    }
+  }
+}

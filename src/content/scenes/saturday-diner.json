@@ -1,0 +1,59 @@
+{
+  "id": "saturday-diner",
+  "title": "Saturday with Dana",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Keeping the Saturday promise. Dana owns her response: she's glad you came, and that's not the same as everything being fixed. Claude's draft.",
+    "Her trust goes up here because she decides it does, not because you earned a point."
+  ],
+  "trigger": { "at": "manual" },
+  "art": "diner@morning",
+  "start": "booth",
+  "nodes": {
+    "booth": {
+      "effects": ["go:diner", "time:=8:58"],
+      "speaker": "Dana",
+      "text": [
+        "Dana's already in the window booth. She looks up when the bell goes. \"You came.\" It isn't a question.",
+        "[Marlene] pours two coffees without asking either of you."
+      ],
+      "choices": [
+        {
+          "label": "\"I said I would.\"",
+          "result": ["\"You said that last time too.\" She smiles anyway. \"Sit.\""],
+          "next": "talk"
+        },
+        {
+          "label": "\"Sorry about last time.\"",
+          "result": ["She shrugs. \"You're here now. That's the part I can use.\""],
+          "next": "talk"
+        }
+      ]
+    },
+    "talk": {
+      "text": [
+        "She tells you about her week. Her car, the battery, her sister. You tell her about Ray and the slab and the cans, which is a dumber story than you thought, and she laughs at it anyway.",
+        "An hour goes. It's the first one in a while that didn't go somewhere."
+      ],
+      "record": "Kept it: Saturday with Dana.",
+      "effects": [
+        "time:+60",
+        "set:saturdayKept",
+        "trust:+1",
+        "add:count.promisesKept=1",
+        "proof:ownership:Kept the Saturday promise to Dana.",
+        { "if": ["purpose=dana"], "then": ["proof:purpose:Kept Saturday with Dana."] },
+        { "quest": "saturday", "status": "closed", "objective": "Kept." }
+      ],
+      "next": "after"
+    },
+    "after": {
+      "speaker": "Dana",
+      "text": ["\"Same time next month?\" She says it into her coffee, like it's nothing."],
+      "choices": [
+        { "label": "\"Yeah.\"", "result": ["\"ok,\" she says. \"Holding you to that.\""], "record": "Promise made: breakfast with Dana next month.", "effects": ["set:danaNextMonth"] },
+        { "label": "\"Let me see how the month goes.\"", "result": ["\"Fair.\""] }
+      ]
+    }
+  }
+}

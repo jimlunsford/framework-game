@@ -1,0 +1,67 @@
+{
+  "id": "kitchen-counter",
+  "title": "The Kitchen Counter",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, stage 2, main quest step: \"Your environment. The cans by the sink. What's in the fridge. Taking the beer out of the house is an option, and it earns the Remove the access card. This is where The Disciplined Operator's idea first shows up, without being named.\" Claude's draft. The idea is never named here, on purpose.",
+    "Runs the first time you walk into the kitchen after work in stage 2."
+  ],
+  "trigger": { "at": "enter", "place": "home", "room": "kitchen", "if": ["stage>=2", "time>=15:00"], "priority": 8 },
+  "art": "kitchen",
+  "tag": { "framework": "How to Rebuild Yourself", "item": "stage 2: Build the structure" },
+  "start": "look",
+  "nodes": {
+    "look": {
+      "text": ["Main quest step: The Kitchen Counter.", "You stand in the kitchen and actually look at it, which you never do."],
+      "textIf": [
+        { "if": ["cans>=3"], "text": ["Four cans by the sink now."] },
+        { "if": ["cans>0", "cans<3"], "text": ["The cans by the sink."] }
+      ],
+      "next": "counter"
+    },
+    "counter": {
+      "text": [
+        "The fridge: half a case of beer, ketchup, eggs of uncertain age.",
+        "None of this decides anything. But all of it is either in the way or out of it. Tomorrow walks through this room before you do."
+      ],
+      "choices": [
+        {
+          "label": "Take the beer out of the house.",
+          "if": ["!beerGone"],
+          "result": ["You pour it down the sink, can by can. It takes longer than you'd think. The fridge looks emptier and somehow cleaner."],
+          "record": "Took the beer out of the house.",
+          "effects": ["set:beerGone", "card:remove-access", "time:+10", "set:today.counterDid"],
+          "next": "counter"
+        },
+        {
+          "label": "Clear the counter. Cans out, dishes done.",
+          "if": ["!today.cansDone"],
+          "result": ["Twenty minutes. The counter is a counter again."],
+          "record": "Cleared the counter at {time}.",
+          "effects": ["set:cans=0", "set:today.cansDone", "time:+20", "set:today.counterDid", { "if": ["quest.cans=active"], "then": [{ "quest": "cans", "status": "closed", "objective": "Done." }] }],
+          "next": "counter"
+        },
+        {
+          "label": "Put something real in the fridge.",
+          "if": ["!today.groceries"],
+          "result": ["You make a list on the back of an envelope. Eggs that aren't a question. Something green. It's on the counter for tomorrow."],
+          "effects": ["set:today.groceries", "set:today.counterDid"],
+          "next": "counter"
+        },
+        {
+          "label": "That's enough for now.",
+          "if": ["today.counterDid"],
+          "effects": [{ "quest": "counter", "status": "closed", "objective": "Done. The kitchen is set up for tomorrow." }],
+          "next": null
+        },
+        {
+          "label": "Leave it. It's just a kitchen.",
+          "if": ["!today.counterDid"],
+          "record": "Left the kitchen as it was.",
+          "effects": [{ "quest": "counter", "status": "closed", "objective": "You looked, and left it as it was." }],
+          "next": null
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "id": "rain-day",
+  "title": "Rain Day",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, stage 3: \"You wake up sick, or the weather kills the plan. Only the floor version is possible. This plants the question 'What can I still do?' The Resilience skill line itself opens in Phase 2.\" Claude's draft uses both: a head cold, and rain that cancels the shift.",
+    "Rest is never penalized (design rule 5). Resting on purpose is one of the floor versions today. Being sick is a real new fact, so It's a plan change is honest today."
+  ],
+  "trigger": {
+    "at": "wake",
+    "if": [
+      "stage=3",
+      "s3day=2"
+    ],
+    "priority": 48
+  },
+  "art": "bedroom@predawn",
+  "tag": {
+    "framework": "The PERIOD Code",
+    "item": "Resilience: What can I still do?"
+  },
+  "start": "wake",
+  "nodes": {
+    "wake": {
+      "effects": [
+        "set:today.rain",
+        "set:today.sick",
+        "set:today.morningHandled",
+        "set:today.factOpen",
+        {
+          "if": [
+            "workday"
+          ],
+          "then": [
+            "set:today.noShift",
+            {
+              "quest": "shift",
+              "objective": "Rained out. No shift today."
+            }
+          ]
+        }
+      ],
+      "text": [
+        "Rain on the window before the alarm. Your head is full of wet sand. A cold, the real kind, the kind with a fever behind it."
+      ],
+      "textIf": [
+        {
+          "if": [
+            "workday"
+          ],
+          "text": [
+            "Ray texts at 6:12: \"Rained out. No work today.\""
+          ]
+        },
+        {
+          "if": [
+            "ceilingLabel"
+          ],
+          "text": [
+            "The plan for today was {ceiling}. That's off."
+          ]
+        }
+      ],
+      "next": "ask"
+    },
+    "ask": {
+      "text": [
+        "The question gets smaller. What can I still do?"
+      ],
+      "effects": [
+        "encounter:rain-day"
+      ]
+    }
+  }
+}

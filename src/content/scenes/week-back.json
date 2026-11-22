@@ -1,0 +1,121 @@
+{
+  "id": "week-back",
+  "title": "The Week Back",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline, stage 3: \"End of the stage. The record shows the week as it happened, with returns counted and misses shown. Your first trait can form here, such as 'someone who shows up' from your shift record or 'someone who answers' from Dana's texts.\" The slice ends after this, on the outline's line.",
+    "Claude's guess on the open question, the first traits and what forms them: Someone who shows up (on time for 4 shifts), Someone who answers (answered Dana the same day 3 times), Someone who comes back (finished the restart sequence twice). Traits come from proof only, never from hours played.",
+    "Claude's guess on the open question, slice length: the slice ends here, on the night The Week Back runs. That needs stage 3, which needs three days of structure, then A Real New Fact. A player who keeps the morning and the floor from Tuesday on reaches it on day 11 (Monday plus 10). Misses add days; nothing is cut off."
+  ],
+  "trigger": {
+    "at": "bedtime",
+    "if": [
+      "stage=3",
+      "seen.real-new-fact"
+    ],
+    "priority": 20
+  },
+  "art": "bedroom@night",
+  "tag": {
+    "framework": "How to Rebuild Yourself",
+    "item": "stage 3: Repeat the action"
+  },
+  "start": "review",
+  "nodes": {
+    "review": {
+      "effects": [
+        "go:home:bedroom",
+        {
+          "quest": "ordinary",
+          "status": "closed",
+          "objective": "A week where nothing special happened, on the record."
+        }
+      ],
+      "text": [
+        "The Week Back.",
+        "The record shows the stretch as it happened. Returns counted. Misses shown. Nothing graded."
+      ],
+      "input": "review-week",
+      "next": "traits"
+    },
+    "traits": {
+      "effects": [
+        {
+          "if": [
+            "count.onTime>=4"
+          ],
+          "then": [
+            "trait:Someone who shows up",
+            "proof:ownership:Trait formed from the shift record: someone who shows up."
+          ]
+        },
+        {
+          "if": [
+            "count.danaSameDay>=3"
+          ],
+          "then": [
+            "trait:Someone who answers",
+            "proof:ownership:Trait formed from Dana's texts: someone who answers."
+          ]
+        },
+        {
+          "if": [
+            "count.returns>=2"
+          ],
+          "then": [
+            "trait:Someone who comes back",
+            "proof:ownership:Trait formed from the restarts: someone who comes back."
+          ]
+        }
+      ],
+      "text": [
+        "Traits form from proof. Not from hours played, and not from how it felt."
+      ],
+      "textIf": [
+        {
+          "if": [
+            "trait.Someone who shows up"
+          ],
+          "text": [
+            "From your shift record: someone who shows up."
+          ]
+        },
+        {
+          "if": [
+            "trait.Someone who answers"
+          ],
+          "text": [
+            "From Dana's texts: someone who answers."
+          ]
+        },
+        {
+          "if": [
+            "trait.Someone who comes back"
+          ],
+          "text": [
+            "From the restarts: someone who comes back."
+          ]
+        },
+        {
+          "if": [
+            "!trait.Someone who shows up",
+            "!trait.Someone who answers",
+            "!trait.Someone who comes back"
+          ],
+          "text": [
+            "No trait formed this stretch. The record is still there, and it keeps counting."
+          ]
+        }
+      ],
+      "next": "end"
+    },
+    "end": {
+      "effects": [
+        "end"
+      ],
+      "text": [
+        "That's the first stretch. The rest of town is coming."
+      ]
+    }
+  }
+}

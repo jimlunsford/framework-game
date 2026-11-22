@@ -1,0 +1,41 @@
+{
+  "id": "skip-it",
+  "title": "Skip it",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Friday night. The Discipline Loop break point: having no daily minimum. The outline's line: \"No time for the full thing, so skip it.\" Claude's draft."
+  ],
+  "tag": {
+    "framework": "The Discipline Loop",
+    "item": "break point: no daily minimum"
+  },
+  "open": "No time for the full thing, so skip it.",
+  "openIf": [
+    {
+      "if": [
+        "!floorSet"
+      ],
+      "text": "No time for the full thing, so skip it. You don't even have a small thing."
+    }
+  ],
+  "rounds": [
+    "It's Friday. Nobody does the floor on a Friday.",
+    "Start fresh Monday."
+  ],
+  "pushback": {
+    "name-it": "It's not hiding. It's one night.",
+    "phone-kitchen": "What if somebody needs you?",
+    "remove-access": "One beer was never the problem.",
+    "text-dana": "She doesn't need your problems.",
+    "show-record": "Those are just lines on a list.",
+    "remember-why": "That's a nice idea. You're tired.",
+    "plan-change": "See? Even you think it's a plan change.",
+    "floor": "Ten minutes isn't the full thing.",
+    "waiting": "For a day with time for the full thing."
+  },
+  "answers": {
+    "floor": "That's why it's the floor.",
+    "show-record": "They're lines I wrote by doing them.",
+    "waiting": "That day isn't coming. This one is here."
+  }
+}

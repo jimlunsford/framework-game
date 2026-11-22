@@ -1,0 +1,49 @@
+{
+  "id": "plan-or-miss",
+  "title": "Plan change, or miss?",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "The evening after A Real New Fact. The overtime was a real fact. It ended at 6. The floor still fits in the evening, so calling the floor off a plan change is an avoidance labeled as an adjustment (Pure Execution Mode). Claude's draft.",
+    "Integrity shows up here as a record line. The Integrity skill line opens in Phase 2."
+  ],
+  "after": "continue",
+  "tag": {
+    "framework": "Pure Execution Mode",
+    "item": "a changed plan and a miss are separate paths"
+  },
+  "intro": [
+    "6:00 p.m. You're off. The day was long and real."
+  ],
+  "open": "You worked late. The plan's shot. Call it a plan change.",
+  "rounds": [
+    "The overtime was real. So the whole night's excused.",
+    "Tomorrow. Fresh."
+  ],
+  "pushback": {
+    "name-it": "It's not hiding. It's one night.",
+    "phone-kitchen": "What if somebody needs you?",
+    "remove-access": "One beer was never the problem.",
+    "text-dana": "She doesn't need your problems.",
+    "remember-why": "That's a nice idea. You're tired.",
+    "plan-change": "See? A plan change.",
+    "floor": "You already worked overtime. That counts as the floor.",
+    "waiting": "The overtime. That's the reason."
+  },
+  "answers": {
+    "floor": "The overtime was Ray's. The floor is mine.",
+    "waiting": "The overtime ended at 6."
+  },
+  "outcomes": {
+    "mislabeled": {
+      "label": "Delayed",
+      "text": [
+        "You called it a plan change. The overtime was real, but it ended at 6. The floor still fit.",
+        "A real fact changes what it touches. It doesn't excuse what it didn't."
+      ],
+      "record": "Called skipping the floor a plan change. The overtime ended at 6.",
+      "effects": [
+        "add:count.mislabeled=1"
+      ]
+    }
+  }
+}

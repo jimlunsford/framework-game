@@ -1,0 +1,25 @@
+{
+  "id": "night-boring",
+  "title": "The Boring Middle: night",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Stage 3, the night after Ordinary Days begins."
+  ],
+  "trigger": {
+    "at": "time",
+    "time": "21:40",
+    "if": [
+      "stage=3",
+      "s3day=1",
+      "!today.encounterDone"
+    ]
+  },
+  "start": "go",
+  "nodes": {
+    "go": {
+      "effects": [
+        "encounter:boring-middle"
+      ]
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "night-stage2",
+  "title": "Another night",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Any other stage 2 night: the weekend, and any day after the first week if stage 2 is still running. The voice argues chaos, in the terms of the escape you lean on."
+  ],
+  "trigger": {
+    "at": "time",
+    "time": "21:40",
+    "daily": true,
+    "if": [
+      "stage=2",
+      "!today.encounterDone",
+      "any:weekday=sat|weekday=sun|weekday=mon|day>=8"
+    ]
+  },
+  "start": "go",
+  "nodes": {
+    "go": {
+      "effects": [
+        "encounter:falling-apart"
+      ]
+    }
+  }
+}

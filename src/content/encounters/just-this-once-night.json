@@ -1,0 +1,41 @@
+{
+  "id": "just-this-once-night",
+  "title": "Just this once",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Thursday night, if you didn't go to [Tuck's] with [Cole]. The same negotiating voice, at night. Claude's draft."
+  ],
+  "open": "Just this once. You've been good.",
+  "openIf": [
+    {
+      "if": [
+        "pattern=drink"
+      ],
+      "text": "Just this once. You've been good. [Cole]'s still at [Tuck's]."
+    }
+  ],
+  "tag": {
+    "framework": "The Discipline Loop",
+    "item": "break point: negotiating with the standard"
+  },
+  "rounds": [
+    "One won't count. Nobody's keeping score.",
+    "You'll get back on it tomorrow. Just this once."
+  ],
+  "pushback": {
+    "name-it": "It's not a deal. It's a beer.",
+    "phone-kitchen": "What if somebody needs you?",
+    "remove-access": "One beer was never the problem.",
+    "text-dana": "She doesn't need your problems.",
+    "show-record": "Those are just lines on a list.",
+    "remember-why": "That's a nice idea. You're tired.",
+    "plan-change": "See? Even you think it's a plan change.",
+    "floor": "You don't have to do that here.",
+    "waiting": "You've been good. That's the reason."
+  },
+  "answers": {
+    "floor": "It's ten minutes. I can do ten minutes anywhere.",
+    "show-record": "They're lines I wrote by doing them.",
+    "waiting": "Being good is the reason to keep going."
+  }
+}

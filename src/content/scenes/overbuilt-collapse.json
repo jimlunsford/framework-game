@@ -1,0 +1,32 @@
+{
+  "id": "overbuilt-collapse",
+  "title": "The full program, day two",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "\"It looks great on day one and collapses by day two. When it does, the restart sequence opens.\" (Outline, Morning Line.) Claude's draft.",
+    "The restart sequence runs right after this, the same morning."
+  ],
+  "trigger": { "at": "wake", "if": ["today.overbuiltCollapse"], "priority": 56 },
+  "art": "bedroom@night",
+  "tag": { "framework": "The Discipline Loop", "item": "break point: overbuilding the plan" },
+  "start": "five",
+  "nodes": {
+    "five": {
+      "effects": [
+        "set:today.morningHandled",
+        "time:=6:58",
+        "unset:overbuilt",
+        "unset:morningSet",
+        "restart:overbuilt",
+        "scene:restart",
+        { "quest": "morning-line", "status": "active", "objective": "The full program lasted one day. Rebuild it smaller." }
+      ],
+      "record": "Slept through the 5 a.m. alarm. The full program lasted one day.",
+      "text": [
+        "5:00 a.m. The alarm. Your legs are concrete. Your shoulders are somebody else's.",
+        "You hit snooze, and snooze, and then it's 6:58 and you're out of bed with nothing done.",
+        "The full program lasted one day."
+      ]
+    }
+  }
+}

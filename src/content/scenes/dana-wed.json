@@ -1,0 +1,57 @@
+{
+  "id": "dana-wed",
+  "title": "Dana's text: Wednesday",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Outline cast: Dana won't chase you. If you left Monday's text on read, she doesn't text again. Claude's draft.",
+    "If you blamed work on Monday, this is a second chance to make Saturday real. Claude's guess on Saturday's details: breakfast at 9 at the diner."
+  ],
+  "trigger": { "at": "time", "time": "12:30", "if": ["weekday=wed", "stage>=2", "any:danaPromised|danaAnswered=work", "!danaStopped", "!danaPending"] },
+  "start": "msg",
+  "nodes": {
+    "msg": {
+      "speaker": "Dana",
+      "message": true,
+      "effects": [{ "if": ["!danaPending"], "then": ["set:today.danaAsked"] }],
+      "textIf": [
+        { "if": ["danaPromised"], "text": ["saturday still good? 9 at the diner. no pressure", "ok some pressure"] },
+        { "if": ["!danaPromised"], "text": ["how's insane work"] }
+      ],
+      "choices": [
+        {
+          "label": "\"Still good. 9.\"",
+          "if": ["danaPromised"],
+          "result": ["\"9. don't make me eat alone.\""],
+          "record": "Answered Dana.",
+          "effects": ["unset:danaPending", { "if": ["today.danaAsked"], "then": ["add:count.danaSameDay=1", { "if": ["purpose=dana"], "then": ["proof:purpose:Answered Dana the same day."] }] }, { "quest": "saturday", "objective": "Promise made: Saturday with Dana. 9 a.m. at the diner." }]
+        },
+        {
+          "label": "\"Better. Is Saturday still open?\"",
+          "if": ["!danaPromised"],
+          "result": ["A long pause. Then: \"9 at the diner. i'm not saving you a seat twice.\""],
+          "record": "Answered Dana. Promise made: Saturday with Dana.",
+          "effects": [
+            "unset:danaPending",
+            "set:danaPromised",
+            { "if": ["today.danaAsked"], "then": ["add:count.danaSameDay=1"] },
+            { "quest": "saturday", "objective": "Promise made: Saturday with Dana. 9 a.m. at the diner." }
+          ]
+        },
+        {
+          "label": "\"Still insane.\"",
+          "if": ["!danaPromised"],
+          "result": ["\"k\""],
+          "record": "Answered Dana.",
+          "effects": ["unset:danaPending", { "if": ["today.danaAsked"], "then": ["add:count.danaSameDay=1"] }]
+        },
+        {
+          "label": "Later.",
+          "if": ["!danaPending"],
+          "result": ["It stays at the top of your messages, then it doesn't."],
+          "effects": ["set:danaPending", "set:danaAsk=wed", { "quest": "saturday", "objective": "Dana texted at 12:30. Not answered yet." }]
+        },
+        { "label": "Not yet.", "if": ["danaPending"], "next": null }
+      ]
+    }
+  }
+}

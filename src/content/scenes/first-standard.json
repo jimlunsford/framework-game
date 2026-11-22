@@ -1,0 +1,39 @@
+{
+  "id": "first-standard",
+  "title": "Opening: Monday. The first standard",
+  "status": "locked",
+  "notes": [
+    "Scene Book, Opening: Monday, section 7. Approved by Jim, Nov 21, 2026. The words are the Scene Book's.",
+    "The two refusals (\"Do better.\" and \"Never touch my phone again.\") are the Scene Book's. The check that decides when to show them is Claude's guess, in src/engine/standard.ts (JIM).",
+    "Starters show when today gave a reason for them: the phone line if the phone was part of the day, the Dana line always (she texted today), the on-site line if you were late or missed the shift.",
+    "\"Wrote a line\" record is Claude's, so the standard shows on the record."
+  ],
+  "trigger": { "at": "bedtime", "if": ["!standard"], "priority": 10 },
+  "art": "bedroom@night",
+  "tag": { "framework": "How to Rebuild Yourself", "item": "stage 1: Raise the standard" },
+  "start": "ask",
+  "nodes": {
+    "ask": {
+      "effects": ["go:home:bedroom"],
+      "text": ["Before you sleep, one question. Not from anyone else. From you.", "\"What's one line you won't cross anymore?\""],
+      "input": "standard",
+      "starters": [
+        { "if": ["any:today.phoneMorning|today.phoneInKitchen|today.lastOutcome=escaped|pull.phone>=1"], "text": "The phone sleeps in the kitchen." },
+        { "text": "I answer Dana the same day." },
+        { "if": ["any:today.late|!today.shiftDone"], "text": "I'm on site by 7." }
+      ],
+      "next": "written"
+    },
+    "written": {
+      "record": "Wrote a line: \"{standard}\"",
+      "effects": [{ "quest": "main", "objective": "Written: \"{standard}\"" }],
+      "text": ["Written. You can break this. That's what makes it real."],
+      "tag": { "framework": "How to Rebuild Yourself", "item": "stage 1: Raise the standard" },
+      "next": "close"
+    },
+    "close": {
+      "effects": ["stage:2:next"],
+      "text": ["That's Monday. The town keeps going. Pick it up when you're ready."]
+    }
+  }
+}

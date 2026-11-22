@@ -1,0 +1,82 @@
+{
+  "_note": "Who is where, and when. Lines are Claude's drafts, waiting on Jim. The first line whose condition holds is the one shown.",
+  "people": [
+    {
+      "id": "ray",
+      "name": "Ray",
+      "role": "Foreman",
+      "schedule": [{ "place": "jobsite", "days": ["mon", "tue", "wed", "thu", "fri"], "from": "6:30", "to": "16:00", "if": ["!today.noShift"] }],
+      "lines": [
+        { "if": ["count.onTime>=4"], "text": "He hands you the plans without explaining them. That's new." },
+        { "if": ["time>=15:30"], "text": "Writing tomorrow on the clipboard." },
+        { "text": "Clipboard, coffee, not looking up." }
+      ]
+    },
+    {
+      "id": "cole",
+      "name": "[Cole]",
+      "role": "On Ray's crew",
+      "schedule": [
+        { "place": "jobsite", "days": ["mon", "tue", "wed", "thu", "fri"], "from": "6:50", "to": "15:40", "if": ["!today.noShift"] },
+        { "place": "bar", "days": ["thu", "fri"], "from": "16:00", "to": "22:30" }
+      ],
+      "lines": [
+        { "if": ["place=bar"], "text": "Telling the story about the forklift again. It gets better every time." },
+        { "text": "Funny, generous, drifting the same way you are." }
+      ]
+    },
+    {
+      "id": "marlene",
+      "name": "[Marlene]",
+      "role": "Runs the diner",
+      "schedule": [{ "place": "diner", "from": "5:30", "to": "14:00" }],
+      "lines": [
+        { "if": ["stage>=3"], "text": "Pours before you sit down. Knows everyone, and now she knows you a little." },
+        { "text": "Pours before you sit down. Knows everyone." }
+      ]
+    },
+    {
+      "id": "deshawn",
+      "name": "[Deshawn]",
+      "role": "Owns the gym",
+      "schedule": [
+        { "place": "gym", "from": "5:00", "to": "9:00" },
+        { "place": "gym", "from": "16:00", "to": "20:00" }
+      ],
+      "lines": [
+        { "if": ["deshawnSmall"], "text": "Nods at you like you're a regular. You might be." },
+        { "text": "Former athlete. Wiping down a bench that was already clean." }
+      ]
+    },
+    {
+      "id": "gus",
+      "name": "[Gus]",
+      "role": "Bartender at [Tuck's]",
+      "schedule": [{ "place": "bar", "from": "16:00", "to": "1:00" }],
+      "lines": [{ "text": "Kind, no judgment, knows your order." }]
+    },
+    {
+      "id": "ruth",
+      "name": "[Pastor Ruth]",
+      "role": "Runs the food pantry",
+      "schedule": [
+        { "place": "church", "days": ["mon", "tue", "wed", "fri", "sat"], "from": "9:00", "to": "17:00" },
+        { "place": "church", "days": ["thu"], "from": "9:00", "to": "18:30" }
+      ],
+      "lines": [
+        { "if": ["pantryDone"], "text": "Waves from the basement stairs. Doesn't make a thing of it." },
+        { "text": "Counting cans with a clipboard and a pencil behind her ear." }
+      ]
+    },
+    {
+      "id": "dana",
+      "name": "Dana",
+      "role": "Your friend",
+      "schedule": [{ "place": "diner", "days": ["sat"], "from": "8:45", "to": "10:30", "if": ["danaPromised", "!danaStopped"] }],
+      "lines": [
+        { "if": ["saturdayKept"], "text": "Stealing your toast. Telling you about her week." },
+        { "text": "In the window booth, checking the door." }
+      ]
+    }
+  ]
+}

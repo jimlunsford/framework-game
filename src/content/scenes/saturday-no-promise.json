@@ -1,0 +1,18 @@
+{
+  "id": "saturday-no-promise",
+  "title": "Saturday, without a promise",
+  "status": "draft, waiting on Jim",
+  "notes": ["If you never made the Saturday promise, Saturday still comes. The record says what happened. Claude's draft."],
+  "trigger": { "at": "wake", "if": ["weekday=sat", "!danaPromised", "quest.saturday=active"], "priority": 44 },
+  "start": "sat",
+  "nodes": {
+    "sat": {
+      "effects": [{ "quest": "saturday", "status": "closed", "objective": "Saturday came and went." }],
+      "record": "Saturday came. No plan with Dana.",
+      "textIf": [
+        { "if": ["danaAnswered=work"], "text": ["Saturday. You said you'd try. You didn't say yes and you didn't say no, so nobody's expecting you."] },
+        { "if": ["!danaAnswered=work"], "text": ["Saturday. Dana's plans happen without you. Nobody texts to ask why."] }
+      ]
+    }
+  }
+}

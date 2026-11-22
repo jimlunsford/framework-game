@@ -1,0 +1,21 @@
+{
+  "id": "cans-by-the-sink",
+  "title": "The Cans by the Sink",
+  "status": "draft, waiting on Jim",
+  "notes": [
+    "Side quest from the Scene Book's Monday quest log: \"A small chore at home. The easiest floor version in the game.\" The words here are Claude's draft.",
+    "Taking the cans out is an action in the kitchen (actions.json). Doing it gives Resolve +1 in tonight's encounter. The cans are also one of the encounter's floor versions."
+  ],
+  "trigger": { "at": "enter", "place": "home", "room": "kitchen", "if": ["cans>0"], "priority": 5 },
+  "art": "kitchen",
+  "start": "see",
+  "nodes": {
+    "see": {
+      "effects": [{ "quest": "cans", "title": "The Cans by the Sink", "kind": "side", "objective": "Two cans by the sink. Ten minutes, maybe less." }],
+      "text": [
+        "Two cans by the sink from Saturday. Rinse, crush, out to the bin. Ten minutes, maybe less.",
+        "They've been there long enough that you don't see them anymore."
+      ]
+    }
+  }
+}

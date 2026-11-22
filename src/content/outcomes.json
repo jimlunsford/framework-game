@@ -1,0 +1,62 @@
+{
+  "_note": "Default outcomes for every encounter. Only four outcomes exist: acted, adjusted, delayed, escaped. A plan change played with no real new fact is a delay, and says so. Monday's encounter writes its own from the Scene Book. These are Claude's drafts in the same words where the Scene Book has them.",
+  "acted": {
+    "label": "Acted",
+    "text": ["You did the floor version.", "Resolve carries into tomorrow."],
+    "effects": ["set:resolveCarry"]
+  },
+  "delayed": {
+    "label": "Delayed",
+    "text": ["\"Tomorrow,\" with no new reason."],
+    "record": "Put it off to tomorrow. Nothing changed."
+  },
+  "escaped": {
+    "phone": {
+      "label": "Escaped",
+      "text": [
+        "It felt good. That part is true.",
+        "The cost lands overnight and in the morning.",
+        "Tomorrow opens with the restart sequence. It's a way back, not a punishment."
+      ],
+      "effects": ["time:=23:40", "set:tomorrow.tired", "restart:escaped", "record:{time}. Still scrolling."]
+    },
+    "drink": {
+      "label": "Escaped",
+      "text": [
+        "It felt good. That part is true.",
+        "The cost lands in the morning.",
+        "Tomorrow opens with the restart sequence. It's a way back, not a punishment."
+      ],
+      "effects": [
+        {
+          "if": ["place=bar"],
+          "then": ["time:=23:30", "set:seenTucksLate", "record:{time}. Still at [Tuck's]."],
+          "else": ["time:=23:10", "add:cans=2", "record:{time}. Two more cans by the sink."]
+        },
+        "set:wakeNext=6:52",
+        "set:tomorrow.tired",
+        "restart:escaped"
+      ]
+    },
+    "comfort": {
+      "label": "Escaped",
+      "text": [
+        "Some relief. The food was fine. The night went somewhere.",
+        "The cost is slow. You won't see it tonight.",
+        "Tomorrow opens with the restart sequence. It's a way back, not a punishment."
+      ],
+      "effects": ["time:=22:50", "restart:escaped", "record:{time}. Ordered in. Zoned out."]
+    }
+  },
+  "adjusted": {
+    "label": "Adjusted",
+    "text": ["A real new fact changed the plan."],
+    "record": "Changed the plan. The facts changed."
+  },
+  "mislabeled": {
+    "label": "Delayed",
+    "text": ["You called it a plan change. Nothing had changed.", "A plan change needs a real new fact. Using it without one shows up later."],
+    "record": "Called it a plan change. Nothing had changed.",
+    "effects": ["add:count.mislabeled=1"]
+  }
+}

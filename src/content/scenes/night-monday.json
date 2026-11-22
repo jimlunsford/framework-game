@@ -1,0 +1,14 @@
+{
+  "id": "night-monday",
+  "title": "Opening: Monday. The first encounter begins",
+  "status": "locked",
+  "notes": [
+    "Scene Book, Opening: Monday, section 6: it triggers around 9:40 p.m. wherever you are.",
+    "Phone in the kitchen is offered on the first night at home."
+  ],
+  "trigger": { "at": "time", "time": "21:40", "if": ["day=1", "!today.encounterDone"] },
+  "start": "go",
+  "nodes": {
+    "go": { "effects": ["set:today.offerPhoneKitchen", "encounter:you-earned-it"] }
+  }
+}
